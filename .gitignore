@@ -1,3 +1,14 @@
+.vs/
+Binaries/
+Debug/
+
+# Files
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
+*.sln
+*.log
+
 # Prerequisites
 *.d
 
