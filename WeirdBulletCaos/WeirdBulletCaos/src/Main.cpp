@@ -6,7 +6,7 @@ using namespace Satellite;
 
 int main(int argc, char* args[])
 {
-	Engine* engine = Engine::instance();
+	Engine* engine = Engine::Instance();
 
 	Game* my_game = new BulletGame();
 

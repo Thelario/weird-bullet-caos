@@ -7,9 +7,9 @@ namespace Satellite
 	class LoggerManager
 	{
 		public:
-			void Log(const std::string& message);
-			void Warning(const std::string& message);
-			void Error(const std::string& message);
-			void Error(const std::string& message, const char* error);
+			static void Log(const std::string& message);
+			static void Warning(const std::string& message);
+			static void Error(const std::string& message);
+			static void Error(const std::string& message, const char* error);
 	};
 }

@@ -4,15 +4,15 @@
 
 void BulletGame::Start()
 {
-	Engine::instance()->GetLogger()->Log("Correctly starting game.");
+	LoggerManager::Log("Correctly starting game.");
 }
 
 void BulletGame::Update()
 {
-	Engine::instance()->GetLogger()->Log("Correctly updating game.");
+	LoggerManager::Log("Correctly updating game.");
 }
 
 void BulletGame::Destroy()
 {
-	Engine::instance()->GetLogger()->Log("Correctly destroying game.");
+	LoggerManager::Log("Correctly destroying game.");
 }

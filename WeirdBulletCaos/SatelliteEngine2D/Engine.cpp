@@ -4,7 +4,7 @@
 
 namespace Satellite
 {
-	Engine* Engine::instance()
+	Engine* Engine::Instance()
 	{
 		static Engine* instance = new Engine();
 		return instance;
@@ -13,8 +13,6 @@ namespace Satellite
 	void Engine::Start(Game* game)
 	{
 		// Start up engine systems in the correct order.
-
-		_logger = new LoggerManager();
 
 		_game = game;
 
@@ -31,7 +29,5 @@ namespace Satellite
 		// Shut everything down, in reverse order.
 
 		_game->Destroy();
-
-		delete _logger;
 	}
 }

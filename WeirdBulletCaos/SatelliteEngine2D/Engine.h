@@ -8,16 +8,13 @@ namespace Satellite
 	class Engine
 	{
 		private:
-			LoggerManager* _logger;
 			Game* _game;
 
 		public:
-			static Engine* instance();
+			static Engine* Instance();
 
 			void Start(Game* game);
 			void Run();
 			void Destroy();
-
-			LoggerManager* GetLogger() { return _logger; }
 	};
 }
