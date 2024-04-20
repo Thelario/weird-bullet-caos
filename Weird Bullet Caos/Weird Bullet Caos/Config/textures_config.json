@@ -1,0 +1,11 @@
+{
+  "textures": [
+    {
+      "asset_id": "basic-shapes",
+      "name": "basic-shapes.png",
+      "width": 64,
+      "height": 32,
+      "tile_size": 32
+    }
+  ]
+}
