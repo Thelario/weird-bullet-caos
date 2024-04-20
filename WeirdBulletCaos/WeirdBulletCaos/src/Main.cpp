@@ -6,13 +6,13 @@ using namespace Satellite;
 
 int main(int argc, char* args[])
 {
-	Engine engine;
-	
+	Engine* engine = Engine::instance();
+
 	Game* my_game = new BulletGame();
 
-	engine.Start(my_game);
-	engine.Run();
-	engine.Destroy();
+	engine->Start(my_game);
+	engine->Run();
+	engine->Destroy();
 
 	delete my_game;
 

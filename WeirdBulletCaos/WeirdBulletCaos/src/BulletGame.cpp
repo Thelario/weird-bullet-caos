@@ -1,18 +1,18 @@
 #include "BulletGame.h"
 
-#include <iostream>
+#include "../../SatelliteEngine2D/Engine.h"
 
 void BulletGame::Start()
 {
-	std::cout << "Starting my game" << std::endl;
+	Engine::instance()->GetLogger()->Log("Correctly starting game.");
 }
 
 void BulletGame::Update()
 {
-	std::cout << "Updating my game" << std::endl;
+	Engine::instance()->GetLogger()->Log("Correctly updating game.");
 }
 
 void BulletGame::Destroy()
 {
-	std::cout << "Destroying my game" << std::endl;
+	Engine::instance()->GetLogger()->Log("Correctly destroying game.");
 }

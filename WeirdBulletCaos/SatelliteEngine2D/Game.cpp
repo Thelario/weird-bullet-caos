@@ -1,23 +1,22 @@
 #include "pch.h"
 
 #include "Game.h"
-
-#include <iostream>
+#include "Engine.h"
 
 namespace Satellite
 {
 	void Game::Start()
 	{
-		std::cout << "Careful, you are not override the base Game class." << std::endl;
+		Engine::instance()->GetLogger()->Error("Careful, you are not override the base Game class.");
 	}
 
 	void Game::Update()
 	{
-		std::cout << "Careful, you are not override the base Game class." << std::endl;
+		Engine::instance()->GetLogger()->Error("Careful, you are not override the base Game class.");
 	}
 
 	void Game::Destroy()
 	{
-		std::cout << "Careful, you are not override the base Game class." << std::endl;
+		Engine::instance()->GetLogger()->Error("Careful, you are not override the base Game class.");
 	}
 }
