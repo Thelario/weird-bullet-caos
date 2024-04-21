@@ -225,4 +225,6 @@ namespace Satellite
 	}
 
     void Engine::SetRenderLogicalSize(glm::vec2 logical_size) { render_logical_size = logical_size; }
+    double Engine::GetDeltaTime() { return delta_time; }
+    SDL_Renderer* Engine::GetRenderer() { return renderer; }
 }

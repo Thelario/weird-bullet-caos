@@ -2,16 +2,18 @@
 
 #include <SDL.h>
 
-class Timer
+namespace Satellite
 {
-	private:
+    class Timer
+    {
+    private:
         Uint32 start_ticks; // The clock time when the timer started
         Uint32 paused_ticks; // The ticks stored when the timer was paused
 
         bool is_paused;
         bool has_started;
 
-	public:
+    public:
         Timer();
 
         void Start();
@@ -23,4 +25,5 @@ class Timer
 
         bool IsStarted();
         bool IsPaused();
-};
+    };
+}

@@ -34,5 +34,7 @@ namespace Satellite
 			void Render();
 
 			void SetRenderLogicalSize(glm::vec2 logical_size);
+			double GetDeltaTime();
+			SDL_Renderer* GetRenderer();
 	};
 }

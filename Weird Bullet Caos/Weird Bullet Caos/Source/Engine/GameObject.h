@@ -2,11 +2,14 @@
 
 #include <glm/glm.hpp>
 #include <string>
-#include "../AssetsManager/AssetsManager.h"
-#include "../Utils/Color.h"
+#include <SDL.h>
 
-class GameObject
+#include "TexturesManager.h"
+
+namespace Satellite
 {
+	class GameObject
+	{
 	protected:
 
 		// Transform data
@@ -17,24 +20,24 @@ class GameObject
 
 		// Sprite data
 
-		std::string asset_id;
+		std::string texture_id;
 		int width;
 		int height;
 		int z_index;
+		int tile_id;
 		bool flip_x;
-		Color color;
-		AssetsManager* assets_manager;
+		bool center_aligned;
+		SDL_Color color;
 
 	public:
-		GameObject(glm::vec2 position = glm::vec2(0), glm::vec2 scale = glm::vec2(0), double rotation = 0,
-			const std::string& asset_id = "", int width = 0, int height = 0, int z_index = 0,
-			Color color = Color(255, 255, 255, 255),bool flip_x = false, AssetsManager* assets_manager = nullptr);
-		
-		virtual ~GameObject() = default;
+		GameObject(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
+			bool flip_x, bool center_aligned = true, int z_index = 0, int tile_id = -1, SDL_Color color = { 255, 255, 255, 255 });
 
 		virtual void Start();
-		virtual void Update(double delta_time);
-		virtual void Render(SDL_Renderer* renderer);
+		virtual void Update();
+		virtual void Render();
 
-		virtual void SetPosition(glm::vec2 position);
-};
+		void SetPosition(glm::vec2 position);
+		void SetRotation(double rotation);
+	};
+}
