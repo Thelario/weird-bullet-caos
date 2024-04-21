@@ -11,8 +11,8 @@
 #include "TexturesManager.h"
 
 const char* title = "Weird Bullet Caos";
-const int width = 800;
-const int height = 600;
+const int width = 960;
+const int height = 540;
 
 namespace Satellite
 {
@@ -56,8 +56,10 @@ namespace Satellite
 			return;
 		}
 
+        // Initializing SDL_Mixer
 		Mix_Init(MIX_INIT_WAVPACK);
 
+        // Initializing all managers
 		FontsManager::Instance()->Start();
 		SoundsManager::Instance()->Start();
 		TexturesManager::Instance()->Start(renderer);
@@ -70,8 +72,17 @@ namespace Satellite
 		int seed = (local_tm.tm_hour * 60 * 60) + (local_tm.tm_min * 60) + local_tm.tm_sec;
 		random = new Random(seed);
 
+        // Start the selected game
 		game = game_to_run;
 		game->Start();
+
+        // After the game has had a chance to change some of the Engine values, apply those engine values
+
+        if (SDL_RenderSetLogicalSize(renderer, render_logical_size.x, render_logical_size.y) != 0) {
+            LoggerManager::Error("An error was produced when setting up the render logical size: ", SDL_GetError());
+            is_running = false;
+            return;
+        }
 
 		is_running = true;
 	}
@@ -212,4 +223,6 @@ namespace Satellite
         TTF_Quit();
         SDL_Quit();
 	}
+
+    void Engine::SetRenderLogicalSize(glm::vec2 logical_size) { render_logical_size = logical_size; }
 }

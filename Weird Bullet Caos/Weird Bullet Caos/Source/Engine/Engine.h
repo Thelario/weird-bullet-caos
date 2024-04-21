@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include "Game.h"
 #include "Random.h"
 
@@ -8,9 +10,12 @@ namespace Satellite
 	class Engine
 	{
 		private:
+			bool is_running;
+			
 			Uint32 milliseconds_previous_frame;
 			double delta_time;
-			bool is_running;
+
+			glm::vec2 render_logical_size;
 
 			SDL_Window* window;
 			SDL_Renderer* renderer;
@@ -27,5 +32,7 @@ namespace Satellite
 			void ProcessInput();
 			void Update();
 			void Render();
+
+			void SetRenderLogicalSize(glm::vec2 logical_size);
 	};
 }
