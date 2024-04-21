@@ -3,23 +3,19 @@
 
 namespace Satellite
 {
-	void Game::Start()
-	{
+	void Game::Start() {
 		LoggerManager::Error("Careful, you are not overriding the base Game class (Start).");
 	}
 
-	void Game::Update()
-	{
+	void Game::Update() {
 		LoggerManager::Error("Careful, you are not overriding the base Game class (Update).");
 	}
 
-	void Game::Render(SDL_Renderer* renderer)
-	{
+	void Game::Render() {
 		LoggerManager::Error("Careful, you are not overriding the base Game class (Render).");
 	}
 
-	void Game::Destroy()
-	{
+	void Game::Destroy() {
 		LoggerManager::Error("Careful, you are not overriding the base Game class (Destroy).");
 	}
 }

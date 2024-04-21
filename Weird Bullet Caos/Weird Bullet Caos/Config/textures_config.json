@@ -6,6 +6,13 @@
       "width": 64,
       "height": 32,
       "tile_size": 32
+    },
+    {
+      "asset_id": "foreground",
+      "name": "foreground.png",
+      "width": 480,
+      "height": 270,
+      "tile_size": 0
     }
   ]
 }

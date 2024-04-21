@@ -1,16 +1,19 @@
 #include "GameObject.h"
 
 #include "Engine.h"
+#include "LoggerManager.h"
 
 namespace Satellite
 {
 	GameObject::GameObject(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
-		bool flip_x, bool center_aligned, int z_index, int tile_id, SDL_Color color)
+		bool flip_x, int tile_id, bool center_aligned, int z_index, SDL_Color color)
 		: position(position), scale(scale), rotation(rotation), texture_id(texture_id), width(width), height(height),
-		flip_x(flip_x), center_aligned(center_aligned), z_index(z_index), tile_id(tile_id), color(color)
+		flip_x(flip_x), tile_id(tile_id), center_aligned(center_aligned), z_index(z_index), color(color)
 	{ }
 
-	void GameObject::Start() { }
+	void GameObject::Start() {
+		SetColor(color);
+	}
 
 	void GameObject::Update() { }
 
@@ -37,10 +40,17 @@ namespace Satellite
 			static_cast<int>(real_height)
 		};
 
-		// Rendering based on the color, flip and rotation provided.
-		SDL_SetRenderDrawColor(Engine::Instance()->GetRenderer(), color.r, color.g, color.b, color.a);
+		// Rendering based on the flip and rotation provided.
+		
 		SDL_RendererFlip flip = flip_x ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 		SDL_RenderCopyEx(Engine::Instance()->GetRenderer(), texture->GetTexture(), &src, &dest, rotation, NULL, flip);
+	}
+
+	void GameObject::SetColor(SDL_Color color) {
+		Texture* texture = TexturesManager::Instance()->GetTexture(texture_id);
+		if (SDL_SetTextureColorMod(texture->GetTexture(), color.r, color.g, color.b) != 0) {
+			LoggerManager::Error("A problem occured when setting the color for " + texture_id, SDL_GetError());
+		}
 	}
 
 	void GameObject::SetPosition(glm::vec2 position) { this->position = position; }

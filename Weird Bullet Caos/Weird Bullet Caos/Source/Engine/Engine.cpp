@@ -10,21 +10,23 @@
 #include "SoundsManager.h"
 #include "TexturesManager.h"
 
-const char* title = "Weird Bullet Caos";
-const int width = 960;
-const int height = 540;
-
 namespace Satellite
 {
+    const char* title = "Satellite";
+
 	Engine* Engine::Instance()
 	{
-		static Engine* instance = new Engine();
+        static Engine* instance = new Engine();
 		return instance;
 	}
 
 	void Engine::Start(Game* game_to_run)
 	{
 		// Start up engine systems in the correct order.
+
+        // Initialize variables that can later be changed
+        real_window_size = glm::vec2(1920, 1080);
+        render_logical_size = glm::vec2(960, 540);
 
 		// Initializing SDL
 		if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -41,7 +43,7 @@ namespace Satellite
 		}
 
 		// Creating SDL Window
-		window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
+        window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, real_window_size.x, real_window_size.y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 		if (window == NULL) {
 			LoggerManager::Error("An error was produced when creating SDL window: ", SDL_GetError());
 			is_running = false;
@@ -72,17 +74,20 @@ namespace Satellite
 		int seed = (local_tm.tm_hour * 60 * 60) + (local_tm.tm_min * 60) + local_tm.tm_sec;
 		random = new Random(seed);
 
-        // Start the selected game
-		game = game_to_run;
-		game->Start();
-
         // After the game has had a chance to change some of the Engine values, apply those engine values
+
+        // Start the selected game
+        game = game_to_run;
+        game->Start();
 
         if (SDL_RenderSetLogicalSize(renderer, render_logical_size.x, render_logical_size.y) != 0) {
             LoggerManager::Error("An error was produced when setting up the render logical size: ", SDL_GetError());
             is_running = false;
             return;
         }
+
+        //SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+        //SDL_SetWindowSize(window, real_window_size.x, real_window_size.y);
 
 		is_running = true;
 	}
@@ -99,8 +104,8 @@ namespace Satellite
 			milliseconds_previous_frame = SDL_GetTicks();
 
 			ProcessInput();
-			game->Update();
-			game->Render(renderer);
+            Update();
+            Render();
 		}
 	}
 
@@ -197,10 +202,10 @@ namespace Satellite
 
     void Engine::Render()
     {
-        SDL_SetRenderDrawColor(renderer, 35, 35, 35, 255);
+        SDL_SetRenderDrawColor(renderer, background_color.r, background_color.g, background_color.b, background_color.a);
         SDL_RenderClear(renderer);
 
-        game->Render(renderer);
+        game->Render();
 
         SDL_RenderPresent(renderer);
     }
@@ -224,7 +229,14 @@ namespace Satellite
         SDL_Quit();
 	}
 
-    void Engine::SetRenderLogicalSize(glm::vec2 logical_size) { render_logical_size = logical_size; }
+    int Engine::GetWindowWidth() { return render_logical_size.x; }
+    int Engine::GetWindowHeight() { return render_logical_size.y; }
     double Engine::GetDeltaTime() { return delta_time; }
     SDL_Renderer* Engine::GetRenderer() { return renderer; }
+
+    void Engine::SetBackgroundColor(SDL_Color color) { background_color = color; }
+    void Engine::SetIsRunning(bool is_running) { this->is_running = is_running; }
+    void Engine::SetWindowTitle(const char* new_title) { SDL_SetWindowTitle(window, new_title); }
+    void Engine::SetRealWindowSize(glm::vec2 window_size) { real_window_size = window_size; }
+    void Engine::SetRenderLogicalSize(glm::vec2 logical_size) { render_logical_size = logical_size; }
 }

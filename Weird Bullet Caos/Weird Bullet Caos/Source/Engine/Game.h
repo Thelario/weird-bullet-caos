@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SDL.h>
-
 namespace Satellite
 {
 	class Game
@@ -9,7 +7,7 @@ namespace Satellite
 		public:
 			virtual void Start();
 			virtual void Update();
-			virtual void Render(SDL_Renderer* renderer);
+			virtual void Render();
 			virtual void Destroy();
 	};
 }

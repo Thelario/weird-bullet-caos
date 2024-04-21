@@ -7,7 +7,7 @@ int main(int argc, char* args[])
 {
 	Engine* engine = Engine::Instance();
 
-	Game* game = new BulletGame();
+	Game* game = new BulletGame::BulletGame();
 
 	engine->Start(game);
 	engine->Run();

@@ -31,12 +31,13 @@ namespace Satellite
 
 	public:
 		GameObject(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
-			bool flip_x, bool center_aligned = true, int z_index = 0, int tile_id = -1, SDL_Color color = { 255, 255, 255, 255 });
+			bool flip_x, int tile_id = -1, bool center_aligned = true, int z_index = 0, SDL_Color color = { 255, 255, 255, 255 });
 
 		virtual void Start();
 		virtual void Update();
 		virtual void Render();
 
+		void SetColor(SDL_Color color);
 		void SetPosition(glm::vec2 position);
 		void SetRotation(double rotation);
 	};
