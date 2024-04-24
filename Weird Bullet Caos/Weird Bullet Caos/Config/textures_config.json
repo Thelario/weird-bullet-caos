@@ -13,6 +13,20 @@
       "width": 480,
       "height": 270,
       "tile_size": 0
+    },
+    {
+      "asset_id": "player",
+      "name": "player.png",
+      "width": 32,
+      "height": 32,
+      "tile_size": 0
+    },
+    {
+      "asset_id": "bullet",
+      "name": "bullet.png",
+      "width": 16,
+      "height": 16,
+      "tile_size": 0
     }
   ]
 }

@@ -36,11 +36,15 @@ namespace Satellite
 			void Update();
 			void Render();
 
+			void CreateObject(GameObject* game_object);
+			void DestroyObject(GameObject* game_object);
+
 			int GetWindowWidth();
 			int GetWindowHeight();
 			double GetDeltaTime();
 			SDL_Renderer* GetRenderer();
 
+			void SetFullsCreen(bool fullscreen);
 			void SetBackgroundColor(SDL_Color color);
 			void SetIsRunning(bool is_running);
 			void SetWindowTitle(const char* new_title);

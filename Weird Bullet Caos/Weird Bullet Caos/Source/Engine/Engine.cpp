@@ -25,7 +25,7 @@ namespace Satellite
 		// Start up engine systems in the correct order.
 
         // Initialize variables that can later be changed
-        real_window_size = glm::vec2(1920, 1080);
+        real_window_size = glm::vec2(960, 540);
         render_logical_size = glm::vec2(960, 540);
 
 		// Initializing SDL
@@ -74,20 +74,16 @@ namespace Satellite
 		int seed = (local_tm.tm_hour * 60 * 60) + (local_tm.tm_min * 60) + local_tm.tm_sec;
 		random = new Random(seed);
 
-        // After the game has had a chance to change some of the Engine values, apply those engine values
-
         // Start the selected game
         game = game_to_run;
         game->Start();
 
+        // After the game has had a chance to change some of the Engine values, apply those engine values
         if (SDL_RenderSetLogicalSize(renderer, render_logical_size.x, render_logical_size.y) != 0) {
             LoggerManager::Error("An error was produced when setting up the render logical size: ", SDL_GetError());
             is_running = false;
             return;
         }
-
-        //SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
-        //SDL_SetWindowSize(window, real_window_size.x, real_window_size.y);
 
 		is_running = true;
 	}
@@ -100,12 +96,15 @@ namespace Satellite
 			if (delta_time > 1000) {
 				delta_time = 0;
 			}
-
+            
 			milliseconds_previous_frame = SDL_GetTicks();
 
 			ProcessInput();
             Update();
             Render();
+
+            game->DestroyGameObjects();
+            game->CreateGameObjects();
 		}
 	}
 
@@ -142,6 +141,9 @@ namespace Satellite
                 case SDLK_ESCAPE:
                     InputManager::SetKey(KeyCode::ESCAPE, true);
                     break;
+                case SDLK_TAB:
+                    InputManager::SetKey(KeyCode::TAB, true);
+                    break;
                 }
                 break;
             case SDL_KEYUP:
@@ -161,6 +163,9 @@ namespace Satellite
                     break;
                 case SDLK_ESCAPE:
                     InputManager::SetKey(KeyCode::ESCAPE, false);
+                    break;
+                case SDLK_TAB:
+                    InputManager::SetKey(KeyCode::TAB, false);
                     break;
                 }
                 break;
@@ -229,11 +234,15 @@ namespace Satellite
         SDL_Quit();
 	}
 
+    void Engine::CreateObject(GameObject* game_object) { game->CreateObject(game_object); }
+    void Engine::DestroyObject(GameObject* game_object) { game->DestroyObject(game_object); }
+
     int Engine::GetWindowWidth() { return render_logical_size.x; }
     int Engine::GetWindowHeight() { return render_logical_size.y; }
     double Engine::GetDeltaTime() { return delta_time; }
     SDL_Renderer* Engine::GetRenderer() { return renderer; }
 
+    void Engine::SetFullsCreen(bool fullscreen) { SDL_SetWindowFullscreen(window, fullscreen ? 0 : SDL_WINDOW_FULLSCREEN); }
     void Engine::SetBackgroundColor(SDL_Color color) { background_color = color; }
     void Engine::SetIsRunning(bool is_running) { this->is_running = is_running; }
     void Engine::SetWindowTitle(const char* new_title) { SDL_SetWindowTitle(window, new_title); }

@@ -10,6 +10,10 @@ namespace Satellite
 {
 	class GameObject
 	{
+
+	public:
+		bool enabled;
+
 	protected:
 
 		// Transform data
@@ -37,6 +41,7 @@ namespace Satellite
 		virtual void Update();
 		virtual void Render();
 
+		void Enable(bool enabled);
 		void SetColor(SDL_Color color);
 		void SetPosition(glm::vec2 position);
 		void SetRotation(double rotation);

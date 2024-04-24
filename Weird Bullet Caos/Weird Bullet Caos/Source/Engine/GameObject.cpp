@@ -8,7 +8,7 @@ namespace Satellite
 	GameObject::GameObject(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
 		bool flip_x, int tile_id, bool center_aligned, int z_index, SDL_Color color)
 		: position(position), scale(scale), rotation(rotation), texture_id(texture_id), width(width), height(height),
-		flip_x(flip_x), tile_id(tile_id), center_aligned(center_aligned), z_index(z_index), color(color)
+		flip_x(flip_x), tile_id(tile_id), center_aligned(center_aligned), z_index(z_index), color(color), enabled(true)
 	{ }
 
 	void GameObject::Start() {
@@ -53,6 +53,7 @@ namespace Satellite
 		}
 	}
 
+	void GameObject::Enable(bool enabled) { this->enabled = enabled; }
 	void GameObject::SetPosition(glm::vec2 position) { this->position = position; }
 	void GameObject::SetRotation(double rotation) { this->rotation = rotation; }
 }
