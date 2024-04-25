@@ -42,6 +42,9 @@ namespace Satellite
 			return;
 		}
 
+        // Initializing SDL_Mixer
+        Mix_Init(MIX_INIT_WAVPACK);
+
 		// Creating SDL Window
         window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, real_window_size.x, real_window_size.y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 		if (window == NULL) {
@@ -57,9 +60,6 @@ namespace Satellite
 			is_running = false;
 			return;
 		}
-
-        // Initializing SDL_Mixer
-		Mix_Init(MIX_INIT_WAVPACK);
 
         // Initializing all managers
 		FontsManager::Instance()->Start();

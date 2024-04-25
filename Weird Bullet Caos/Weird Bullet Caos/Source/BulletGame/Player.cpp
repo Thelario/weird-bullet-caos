@@ -2,6 +2,7 @@
 
 #include <math.h>
 
+#include "../Engine/SoundsManager.h"
 #include "../Engine/LoggerManager.h"
 #include "../Engine/InputManager.h"
 #include "../Engine/Engine.h"
@@ -18,14 +19,20 @@ namespace BulletGame
 	{
 		GameObject::Start();
 
-		movement_speed = 100;
+		movement_speed = 200;
 		rotation_speed = 100;
 		fire_rate = 0.5 * 1000;
 		fire_rate_counter = SDL_GetTicks();
-		bullet_speed = 200;
+		bullet_speed = 700;
 	}
 
 	void Player::Update()
+	{
+		MoveAndRotate();
+		Shoot();
+	}
+
+	void Player::MoveAndRotate()
 	{
 		double dt = Engine::Instance()->GetDeltaTime();
 
@@ -63,6 +70,24 @@ namespace BulletGame
 		if (position.x < 0 || position.x > Engine::Instance()->GetWindowWidth() ||
 			position.y < 0 || position.y > Engine::Instance()->GetWindowHeight()) {
 			position = glm::vec2(Engine::Instance()->GetWindowWidth() / 2, Engine::Instance()->GetWindowHeight() / 2);
+		}
+	}
+
+	void Player::Shoot()
+	{
+		if (InputManager::GetMouseButtonDown(0))
+		{
+			if (SDL_GetTicks() - fire_rate_counter >= fire_rate)
+			{
+				fire_rate_counter = SDL_GetTicks();
+
+				Bullet* bullet = new Bullet(position, glm::vec2(0.8, 1.6), rotation, "basic-shapes", 32, 32, false, 1, true,
+					0, { 255, 255, 255, 255 }, bullet_speed, direction);
+
+				Engine::Instance()->CreateObject(bullet);
+
+				SoundsManager::Instance()->PlaySound("shoot");
+			}
 		}
 	}
 }

@@ -4,29 +4,19 @@
 
 namespace Satellite
 {
+	const std::string file_path = "./Assets/Sounds/";
+
 	SoundsManager* SoundsManager::Instance()
 	{
 		static SoundsManager* instance = new SoundsManager();
 		return instance;
 	}
 
-	bool SoundsManager::Start()
+	void SoundsManager::Start()
 	{
-		_music = Mix_LoadMUS("./assets/sounds/music.wav");
-		if (_music == NULL) {
-			LoggerManager::Error("Failed to load music! SDL_mixer Error: ", Mix_GetError());
-			return false;
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) != 0) {
+			LoggerManager::Error("SDL_mixer could not initialize! SDL_mixer Error: ", Mix_GetError());
 		}
-
-		Mix_Chunk* ball_sound = Mix_LoadWAV("./assets/sounds/ball.wav");
-		if (ball_sound == NULL) {
-			LoggerManager::Error("Failed to ball sound! SDL_mixer Error: ", Mix_GetError());
-			return false;
-		}
-
-		_sounds.emplace("ball-sound", ball_sound);
-
-		return true;
 	}
 
 	void SoundsManager::Destroy()
@@ -38,6 +28,18 @@ namespace Satellite
 		_sounds.clear();
 
 		Mix_FreeMusic(_music);
+	}
+
+	void SoundsManager::AddSound(const std::string& file_name, const std::string& sound_id)
+	{
+		std::string new_string = file_path + file_name;
+
+		Mix_Chunk* sound = Mix_LoadWAV(new_string.c_str());
+		if (sound == NULL) {
+			LoggerManager::Error("Failed to load sound! SDL_mixer Error: ", Mix_GetError());
+		}
+
+		_sounds.emplace(sound_id, sound);
 	}
 
 	void SoundsManager::PlayMusic()

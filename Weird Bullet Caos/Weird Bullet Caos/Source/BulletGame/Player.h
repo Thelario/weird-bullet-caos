@@ -28,5 +28,8 @@ namespace BulletGame
 
 		void Start() override;
 		void Update() override;
+
+		void MoveAndRotate();
+		void Shoot();
 	};
 }
