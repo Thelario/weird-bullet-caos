@@ -9,13 +9,8 @@ namespace BulletGame
 {
 	class BulletGame : public Game
 	{
-	private:
-		GameObject* foreground;
-		GameObject* circle;
-
 	public:
 		void Start() override;
 		void Update() override;
-		void Destroy() override;
 	};
 }

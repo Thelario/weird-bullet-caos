@@ -20,19 +20,23 @@ namespace Satellite
 	void GameObject::Render()
 	{
 		// Generate source rect with the given texture.
+
 		Texture* texture = TexturesManager::Instance()->GetTexture(texture_id);
 		SDL_Rect src;
 		src = (tile_id == -1) ? (texture->GetSourceRect()) : (texture->GetTileSourceRect(tile_id));
 
 		// Calculate real width and height based on scale.
+
 		float real_width = width * scale.x;
 		float real_height = height * scale.y;
 
 		// Calculate correct position based on center alignment.
+
 		int pos_x = (center_aligned) ? (static_cast<int>(position.x - (real_width / 2))) : (position.x);
 		int pos_y = (center_aligned) ? (static_cast<int>(position.y - (real_height / 2))) : (position.y);
 
 		// Creating the destination rectangle.
+
 		SDL_Rect dest = {
 			static_cast<int>(pos_x),
 			static_cast<int>(pos_y),
@@ -41,7 +45,7 @@ namespace Satellite
 		};
 
 		// Rendering based on the flip and rotation provided.
-		
+
 		SDL_RendererFlip flip = flip_x ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 		SDL_RenderCopyEx(Engine::Instance()->GetRenderer(), texture->GetTexture(), &src, &dest, rotation, NULL, flip);
 	}

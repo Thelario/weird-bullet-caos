@@ -8,6 +8,9 @@
 
 namespace Satellite
 {
+	const int FPS = 120;
+	const int MILLISECS_PER_FRAME = 1000 / FPS;
+
 	class Engine
 	{
 		private:

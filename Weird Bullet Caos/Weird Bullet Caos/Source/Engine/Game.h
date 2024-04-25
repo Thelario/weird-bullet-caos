@@ -16,8 +16,8 @@ namespace Satellite
 	public:
 		virtual void Start();
 		virtual void Update();
-		virtual void Render();
-		virtual void Destroy();
+		void Render();
+		void Destroy();
 
 		void CreateObject(GameObject* game_object);
 		void DestroyObject(GameObject* game_object);

@@ -92,13 +92,6 @@ namespace Satellite
 	{
 		while (is_running)
 		{
-			delta_time = (SDL_GetTicks() - milliseconds_previous_frame) / 1000.0;
-			if (delta_time > 1000) {
-				delta_time = 0;
-			}
-            
-			milliseconds_previous_frame = SDL_GetTicks();
-
 			ProcessInput();
             Update();
             Render();
@@ -126,6 +119,12 @@ namespace Satellite
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {
+                case SDLK_a:
+                    InputManager::SetKey(KeyCode::A, true);
+                    break;
+                case SDLK_d:
+                    InputManager::SetKey(KeyCode::D, true);
+                    break;
                 case SDLK_o:
                     InputManager::SetKey(KeyCode::O, true);
                     break;
@@ -149,6 +148,12 @@ namespace Satellite
             case SDL_KEYUP:
                 switch (event.key.keysym.sym)
                 {
+                case SDLK_a:
+                    InputManager::SetKey(KeyCode::A, false);
+                    break;
+                case SDLK_d:
+                    InputManager::SetKey(KeyCode::D, false);
+                    break;
                 case SDLK_o:
                     InputManager::SetKey(KeyCode::O, false);
                     break;
@@ -202,6 +207,18 @@ namespace Satellite
 
     void Engine::Update()
     {
+        int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - milliseconds_previous_frame);
+        if (timeToWait > 0 && timeToWait <= MILLISECS_PER_FRAME) {
+            SDL_Delay(timeToWait);
+        }
+
+        delta_time = (SDL_GetTicks() - milliseconds_previous_frame) / 1000.0;
+        if (delta_time > 1000) {
+            delta_time = 0;
+        }
+
+        milliseconds_previous_frame = SDL_GetTicks();
+
         game->Update();
     }
 

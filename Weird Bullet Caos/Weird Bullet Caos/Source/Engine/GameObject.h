@@ -12,7 +12,7 @@ namespace Satellite
 	{
 
 	public:
-		bool enabled;
+		bool enabled = true;
 
 	protected:
 
@@ -39,7 +39,7 @@ namespace Satellite
 
 		virtual void Start();
 		virtual void Update();
-		virtual void Render();
+		void Render();
 
 		void Enable(bool enabled);
 		void SetColor(SDL_Color color);

@@ -10,11 +10,6 @@ namespace BulletGame
 		speed(speed), direction(direction)
 	{ }
 
-	void Bullet::Start()
-	{
-		
-	}
-
 	void Bullet::Update()
 	{
 		// Move bullet
