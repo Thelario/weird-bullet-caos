@@ -47,5 +47,7 @@ namespace Satellite
 		void SetColor(SDL_Color color);
 		void SetPosition(glm::vec2 position);
 		void SetRotation(double rotation);
+
+		glm::vec2 GetPosition();
 	};
 }

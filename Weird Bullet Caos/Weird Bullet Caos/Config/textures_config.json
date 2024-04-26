@@ -15,28 +15,28 @@
       "tile_size": 0
     },
     {
-      "asset_id": "meteor-square-small",
+      "asset_id": "asteroid-square-small",
       "name": "meteor_squareSmall.png",
       "width": 128,
       "height": 128,
       "tile_size": 0
     },
     {
-      "asset_id": "meteor-square-large",
+      "asset_id": "asteroid-square-large",
       "name": "meteor_squareLarge.png",
       "width": 128,
       "height": 128,
       "tile_size": 0
     },
     {
-      "asset_id": "meteor-small",
+      "asset_id": "asteroid-small",
       "name": "meteor_small.png",
       "width": 128,
       "height": 128,
       "tile_size": 0
     },
     {
-      "asset_id": "meteor-large",
+      "asset_id": "asteroid-large",
       "name": "meteor_large.png",
       "width": 128,
       "height": 128,

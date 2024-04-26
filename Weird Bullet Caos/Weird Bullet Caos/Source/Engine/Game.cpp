@@ -63,9 +63,6 @@ namespace Satellite
 
 	void Game::DestroyGameObjects()
 	{
-		// It might be a better idea to mark all the pending to destroy objects as disable
-		// and destroy one every frame, instead of all the objects each frame (for high amounts of objects).
-
 		for (GameObject* element_to_remove : gameobjects_to_remove)
 		{
 			auto it = std::find(gameobjects.begin(), gameobjects.end(), element_to_remove);

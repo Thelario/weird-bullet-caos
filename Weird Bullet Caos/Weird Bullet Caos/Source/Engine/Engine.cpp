@@ -371,13 +371,19 @@ namespace Satellite
         SDL_Quit();
 	}
 
-    void Engine::CreateObject(GameObject* game_object) { game->CreateObject(game_object); }
+    GameObject* Engine::CreateObject(GameObject* game_object)
+    {
+        game->CreateObject(game_object);
+        return game_object;
+    }
+
     void Engine::DestroyObject(GameObject* game_object) { game->DestroyObject(game_object); }
 
     int Engine::GetWindowWidth() { return render_logical_size.x; }
     int Engine::GetWindowHeight() { return render_logical_size.y; }
     double Engine::GetDeltaTime() { return delta_time; }
     SDL_Renderer* Engine::GetRenderer() { return renderer; }
+    Random* Engine::GetRandom() { return random; }
 
     void Engine::SetFullsCreen(bool fullscreen) { SDL_SetWindowFullscreen(window, fullscreen ? 0 : SDL_WINDOW_FULLSCREEN); }
     void Engine::SetBackgroundColor(SDL_Color color) { background_color = color; }

@@ -52,6 +52,10 @@ namespace Satellite
 
 	void GameObject::SetColor(SDL_Color color)
 	{
+		if (renderable == false) {
+			return;
+		}
+
 		Texture* texture = TexturesManager::Instance()->GetTexture(texture_id);
 		if (SDL_SetTextureColorMod(texture->GetTexture(), color.r, color.g, color.b) != 0) {
 			LoggerManager::Error("A problem occured when setting the color for " + texture_id, SDL_GetError());
@@ -62,4 +66,6 @@ namespace Satellite
 	void GameObject::Enable(bool enabled) { this->enabled = enabled; }
 	void GameObject::SetPosition(glm::vec2 position) { this->position = position; }
 	void GameObject::SetRotation(double rotation) { this->rotation = rotation; }
+
+	glm::vec2 GameObject::GetPosition() { return position; }
 }
