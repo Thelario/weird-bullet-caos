@@ -12,14 +12,14 @@ namespace Satellite
 
 	bool FontsManager::Start()
 	{
-		bool success = false;
+		// Initializing TTF
 
-		// Loading fonts
+		if (TTF_Init() != 0) {
+			LoggerManager::Error("An error was produced when initializing TTF: ", TTF_GetError());
+			return false;
+		}
 
-		success = AddFont("arial-font", "./Assets/Fonts/arial.ttf", 100);
-		success = AddFont("charriot-font", "./Assets/Fonts/charriot.ttf", 100);
-
-		return success;
+		return true;
 	}
 
 	void FontsManager::Destroy()

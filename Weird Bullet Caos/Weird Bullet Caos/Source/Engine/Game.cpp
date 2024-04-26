@@ -1,6 +1,8 @@
 #include "Game.h"
-#include "LoggerManager.h"
+
 #include <iostream>
+
+#include "LoggerManager.h"
 
 namespace Satellite
 {
@@ -10,6 +12,8 @@ namespace Satellite
 
 	void Game::Update()
 	{
+		// We only update objects that are enabled
+
 		for (GameObject* game_object : gameobjects)
 		{
 			if (game_object != nullptr && game_object->enabled == true) {
@@ -20,9 +24,11 @@ namespace Satellite
 
 	void Game::Render()
 	{
+		// We only render objects that are enabled and are marked as renderable
+
 		for (GameObject* game_object : gameobjects)
 		{
-			if (game_object != nullptr && game_object->enabled == true) {
+			if (game_object != nullptr && game_object->enabled == true && game_object->renderable == true) {
 				game_object->Render();
 			}
 		}

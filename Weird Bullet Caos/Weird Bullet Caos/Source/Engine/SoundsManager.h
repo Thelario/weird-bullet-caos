@@ -15,7 +15,7 @@ namespace Satellite
 		public:
 			static SoundsManager* Instance();
 
-			void Start();
+			bool Start();
 			void Destroy();
 
 			void AddSound(const std::string& file_name, const std::string& sound_id);

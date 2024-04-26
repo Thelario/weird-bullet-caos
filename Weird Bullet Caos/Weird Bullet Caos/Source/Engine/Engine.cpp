@@ -35,15 +35,11 @@ namespace Satellite
 			return;
 		}
 
-		// Initializing TTF
-		if (TTF_Init() != 0) {
-			LoggerManager::Error("An error was produced when initializing TTF: ", TTF_GetError());
-			is_running = false;
-			return;
-		}
-
-        // Initializing SDL_Mixer
-        Mix_Init(MIX_INIT_WAVPACK);
+        // Initialize TTF
+        if (FontsManager::Instance()->Start() == false) {
+            is_running = false;
+            return;
+        }
 
 		// Creating SDL Window
         window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, real_window_size.x, real_window_size.y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
@@ -61,9 +57,13 @@ namespace Satellite
 			return;
 		}
 
-        // Initializing all managers
-		FontsManager::Instance()->Start();
-		SoundsManager::Instance()->Start();
+        // Initialize SDL_Mixer
+        if (SoundsManager::Instance()->Start() == false) {
+            is_running = false;
+            return;
+        }
+
+        // Initialize Texture Manager
 		TexturesManager::Instance()->Start(renderer);
 
 		// Creating random based on system time
@@ -122,20 +122,80 @@ namespace Satellite
                 case SDLK_a:
                     InputManager::SetKey(KeyCode::A, true);
                     break;
+                case SDLK_b:
+                    InputManager::SetKey(KeyCode::B, true);
+                    break;
+                case SDLK_c:
+                    InputManager::SetKey(KeyCode::C, true);
+                    break;
                 case SDLK_d:
                     InputManager::SetKey(KeyCode::D, true);
+                    break;
+                case SDLK_e:
+                    InputManager::SetKey(KeyCode::E, true);
+                    break;
+                case SDLK_f:
+                    InputManager::SetKey(KeyCode::F, true);
+                    break;
+                case SDLK_g:
+                    InputManager::SetKey(KeyCode::G, true);
+                    break;
+                case SDLK_h:
+                    InputManager::SetKey(KeyCode::H, true);
+                    break;
+                case SDLK_i:
+                    InputManager::SetKey(KeyCode::I, true);
+                    break;
+                case SDLK_j:
+                    InputManager::SetKey(KeyCode::J, true);
+                    break;
+                case SDLK_k:
+                    InputManager::SetKey(KeyCode::K, true);
+                    break;
+                case SDLK_l:
+                    InputManager::SetKey(KeyCode::L, true);
+                    break;
+                case SDLK_m:
+                    InputManager::SetKey(KeyCode::M, true);
+                    break;
+                case SDLK_n:
+                    InputManager::SetKey(KeyCode::N, true);
                     break;
                 case SDLK_o:
                     InputManager::SetKey(KeyCode::O, true);
                     break;
-                case SDLK_w:
-                    InputManager::SetKey(KeyCode::W, true);
+                case SDLK_p:
+                    InputManager::SetKey(KeyCode::P, true);
+                    break;
+                case SDLK_q:
+                    InputManager::SetKey(KeyCode::Q, true);
+                    break;
+                case SDLK_r:
+                    InputManager::SetKey(KeyCode::R, true);
                     break;
                 case SDLK_s:
                     InputManager::SetKey(KeyCode::S, true);
                     break;
-                case SDLK_l:
-                    InputManager::SetKey(KeyCode::L, true);
+                case SDLK_t:
+                    InputManager::SetKey(KeyCode::T, true);
+                    break;
+                case SDLK_u:
+                    InputManager::SetKey(KeyCode::U, true);
+                    break;
+                case SDLK_v:
+                    InputManager::SetKey(KeyCode::V, true);
+                    break;
+                case SDLK_w:
+                    InputManager::SetKey(KeyCode::W, true);
+                    break;
+                case SDLK_x:
+                    InputManager::SetKey(KeyCode::X, true);
+                    break;
+                case SDLK_y:
+                    InputManager::SetKey(KeyCode::Y, true);
+                    break;
+                case SDLK_z:
+                    InputManager::SetKey(KeyCode::Z, true);
                     break;
                 case SDLK_ESCAPE:
                     InputManager::SetKey(KeyCode::ESCAPE, true);
@@ -151,20 +211,80 @@ namespace Satellite
                 case SDLK_a:
                     InputManager::SetKey(KeyCode::A, false);
                     break;
+                case SDLK_b:
+                    InputManager::SetKey(KeyCode::B, false);
+                    break;
+                case SDLK_c:
+                    InputManager::SetKey(KeyCode::C, false);
+                    break;
                 case SDLK_d:
                     InputManager::SetKey(KeyCode::D, false);
+                    break;
+                case SDLK_e:
+                    InputManager::SetKey(KeyCode::E, false);
+                    break;
+                case SDLK_f:
+                    InputManager::SetKey(KeyCode::F, false);
+                    break;
+                case SDLK_g:
+                    InputManager::SetKey(KeyCode::G, false);
+                    break;
+                case SDLK_h:
+                    InputManager::SetKey(KeyCode::H, false);
+                    break;
+                case SDLK_i:
+                    InputManager::SetKey(KeyCode::I, false);
+                    break;
+                case SDLK_j:
+                    InputManager::SetKey(KeyCode::J, false);
+                    break;
+                case SDLK_k:
+                    InputManager::SetKey(KeyCode::K, false);
+                    break;
+                case SDLK_l:
+                    InputManager::SetKey(KeyCode::L, false);
+                    break;
+                case SDLK_m:
+                    InputManager::SetKey(KeyCode::M, false);
+                    break;
+                case SDLK_n:
+                    InputManager::SetKey(KeyCode::N, false);
                     break;
                 case SDLK_o:
                     InputManager::SetKey(KeyCode::O, false);
                     break;
-                case SDLK_w:
-                    InputManager::SetKey(KeyCode::W, false);
+                case SDLK_p:
+                    InputManager::SetKey(KeyCode::P, false);
+                    break;
+                case SDLK_q:
+                    InputManager::SetKey(KeyCode::Q, false);
+                    break;
+                case SDLK_r:
+                    InputManager::SetKey(KeyCode::R, false);
                     break;
                 case SDLK_s:
                     InputManager::SetKey(KeyCode::S, false);
                     break;
-                case SDLK_l:
-                    InputManager::SetKey(KeyCode::L, false);
+                case SDLK_t:
+                    InputManager::SetKey(KeyCode::T, false);
+                    break;
+                case SDLK_u:
+                    InputManager::SetKey(KeyCode::U, false);
+                    break;
+                case SDLK_v:
+                    InputManager::SetKey(KeyCode::V, false);
+                    break;
+                case SDLK_w:
+                    InputManager::SetKey(KeyCode::W, false);
+                    break;
+                case SDLK_x:
+                    InputManager::SetKey(KeyCode::X, false);
+                    break;
+                case SDLK_y:
+                    InputManager::SetKey(KeyCode::Y, false);
+                    break;
+                case SDLK_z:
+                    InputManager::SetKey(KeyCode::Z, false);
                     break;
                 case SDLK_ESCAPE:
                     InputManager::SetKey(KeyCode::ESCAPE, false);

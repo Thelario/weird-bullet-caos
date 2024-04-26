@@ -12,11 +12,18 @@ namespace Satellite
 		return instance;
 	}
 
-	void SoundsManager::Start()
+	bool SoundsManager::Start()
 	{
+		// Initializing SDL_Mixer
+
+		Mix_Init(MIX_INIT_WAVPACK);
+
 		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) != 0) {
 			LoggerManager::Error("SDL_mixer could not initialize! SDL_mixer Error: ", Mix_GetError());
+			return false;
 		}
+
+		return true;
 	}
 
 	void SoundsManager::Destroy()
