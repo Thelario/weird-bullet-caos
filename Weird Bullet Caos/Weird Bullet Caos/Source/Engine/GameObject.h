@@ -13,6 +13,7 @@ namespace Satellite
 	public:
 		bool enabled = true;
 		bool renderable = true;
+		bool collidable = false;
 
 	protected:
 
@@ -33,14 +34,20 @@ namespace Satellite
 		bool center_aligned;
 		SDL_Color color;
 
+		// Collider data
+
+		glm::vec2 size;
+		glm::vec2 offset;
+
 	public:
 		GameObject(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
 			bool flip_x, int tile_id = -1, bool center_aligned = true, int z_index = 0, SDL_Color color = { 255, 255, 255, 255 },
-			bool enabled = true, bool renderable = true);
+			bool enabled = true, bool renderable = true, bool collidable = false, glm::vec2 size = glm::vec2(0), glm::vec2 offset = glm::vec2(0));
 
 		virtual void Start();
 		virtual void Update();
 		void Render();
+		void RenderCollider();
 
 		void Enable(bool enabled);
 		void Renderable(bool renderable);

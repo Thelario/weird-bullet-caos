@@ -15,6 +15,7 @@ namespace Satellite
 	{
 		private:
 			bool is_running;
+			bool debug;
 			
 			Uint32 milliseconds_previous_frame;
 			double delta_time;
@@ -42,12 +43,14 @@ namespace Satellite
 			GameObject* CreateObject(GameObject* game_object);
 			void DestroyObject(GameObject* game_object);
 
+			bool Debugging();
 			int GetWindowWidth();
 			int GetWindowHeight();
 			double GetDeltaTime();
 			SDL_Renderer* GetRenderer();
 			Random* GetRandom();
 
+			void SetDebugging(bool debug);
 			void SetFullsCreen(bool fullscreen);
 			void SetBackgroundColor(SDL_Color color);
 			void SetIsRunning(bool is_running);

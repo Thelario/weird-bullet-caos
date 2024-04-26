@@ -379,12 +379,14 @@ namespace Satellite
 
     void Engine::DestroyObject(GameObject* game_object) { game->DestroyObject(game_object); }
 
+    bool Engine::Debugging() { return debug; }
     int Engine::GetWindowWidth() { return render_logical_size.x; }
     int Engine::GetWindowHeight() { return render_logical_size.y; }
     double Engine::GetDeltaTime() { return delta_time; }
     SDL_Renderer* Engine::GetRenderer() { return renderer; }
     Random* Engine::GetRandom() { return random; }
 
+    void Engine::SetDebugging(bool debug) { this->debug = debug; }
     void Engine::SetFullsCreen(bool fullscreen) { SDL_SetWindowFullscreen(window, fullscreen ? 0 : SDL_WINDOW_FULLSCREEN); }
     void Engine::SetBackgroundColor(SDL_Color color) { background_color = color; }
     void Engine::SetIsRunning(bool is_running) { this->is_running = is_running; }

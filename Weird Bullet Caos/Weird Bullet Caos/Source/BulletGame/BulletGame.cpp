@@ -14,6 +14,7 @@ namespace BulletGame
 	{
 		// Game configuration
 
+		Engine::Instance()->SetDebugging(true);
 		Engine::Instance()->SetRenderLogicalSize(glm::vec2(1920, 1080));
 		Engine::Instance()->SetWindowTitle("Weird Bullet Caos");
 		Engine::Instance()->SetBackgroundColor({ 0, 0, 0, 255 });
@@ -22,7 +23,7 @@ namespace BulletGame
 		// Initial objects creation
 
 		GameObject* player = Engine::Instance()->CreateObject(new Player(glm::vec2(Engine::Instance()->GetWindowWidth() / 2, Engine::Instance()->GetWindowHeight() / 2),
-			glm::vec2(1), 0, "ship", 128, 128, false, -1, true, 0, { 255, 255, 255, 255 }));
+			glm::vec2(1), 0, "ship", 128, 128, false, -1, true, 0, { 255, 255, 255, 255 }, true, true, true, glm::vec2(70, 70), glm::vec2(0)));
 
 		Engine::Instance()->CreateObject(new Spawner(glm::vec2(Engine::Instance()->GetWindowWidth() / 2, Engine::Instance()->GetWindowHeight() / 2),
 			glm::vec2(1), 0, "", 0, 0, false, -1, true, 0, { 255, 255, 255, 255 }, true, false, player));

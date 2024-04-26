@@ -10,9 +10,9 @@
 namespace BulletGame
 {
 	Player::Player(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
-		bool flip_x, int tile_id, bool center_aligned, int z_index, SDL_Color color, bool enabled, bool renderable)
-		: GameObject(position, scale, rotation, texture_id, width, height, flip_x, tile_id, center_aligned, z_index, color,
-			enabled, renderable)
+		bool flip_x, int tile_id, bool center_aligned, int z_index, SDL_Color color, bool enabled, bool renderable, bool collidable,
+		glm::vec2 size, glm::vec2 offset) : GameObject(position, scale, rotation, texture_id, width, height, flip_x, tile_id,
+			center_aligned, z_index, color, enabled, renderable, collidable, size, offset)
 	{ }
 
 	void Player::Start()
@@ -83,7 +83,7 @@ namespace BulletGame
 				fire_rate_counter = SDL_GetTicks();
 
 				Bullet* bullet = new Bullet(position, glm::vec2(0.8, 1.6), rotation, "basic-shapes", 32, 32, false, 1, true,
-					0, { 255, 255, 255, 255 }, true, true, bullet_speed, direction);
+					0, { 255, 255, 255, 255 }, true, true, true, glm::vec2(40, 40), glm::vec2(0), bullet_speed, direction);
 
 				Engine::Instance()->CreateObject(bullet);
 

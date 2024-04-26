@@ -6,9 +6,11 @@
 namespace Satellite
 {
 	GameObject::GameObject(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
-		bool flip_x, int tile_id, bool center_aligned, int z_index, SDL_Color color, bool enabled, bool renderable)
-		: position(position), scale(scale), rotation(rotation), texture_id(texture_id), width(width), height(height),
-		flip_x(flip_x), tile_id(tile_id), center_aligned(center_aligned), z_index(z_index), color(color), enabled(enabled), renderable(renderable)
+		bool flip_x, int tile_id, bool center_aligned, int z_index, SDL_Color color, bool enabled, bool renderable, bool collidable,
+		glm::vec2 size, glm::vec2 offset)
+		: position(position), scale(scale), rotation(rotation), texture_id(texture_id), width(width), height(height), flip_x(flip_x),
+		tile_id(tile_id), center_aligned(center_aligned), z_index(z_index), color(color), enabled(enabled), renderable(renderable),
+		collidable(collidable), size(size), offset(offset)
 	{ }
 
 	void GameObject::Start() {
@@ -48,6 +50,28 @@ namespace Satellite
 
 		SDL_RendererFlip flip = flip_x ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 		SDL_RenderCopyEx(Engine::Instance()->GetRenderer(), texture->GetTexture(), &src, &dest, rotation, NULL, flip);
+
+		// Render collider
+
+		if (collidable && Engine::Instance()->Debugging()) {
+			RenderCollider();
+		}
+	}
+
+	void GameObject::RenderCollider()
+	{
+		float pos_x = position.x - (size.x / 2);
+		float pos_y = position.y - (size.y / 2);
+
+		SDL_Rect outline_rect = {
+			static_cast<int>(pos_x + offset.x),
+			static_cast<int>(pos_y + offset.y),
+			static_cast<int>(size.x),
+			static_cast<int>(size.y)
+		};
+
+		SDL_SetRenderDrawColor(Engine::Instance()->GetRenderer(), 0, 255, 0, 255);
+		SDL_RenderDrawRect(Engine::Instance()->GetRenderer(), &outline_rect);
 	}
 
 	void GameObject::SetColor(SDL_Color color)

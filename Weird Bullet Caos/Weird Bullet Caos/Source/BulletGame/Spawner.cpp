@@ -57,7 +57,7 @@ namespace BulletGame
 
 			Engine::Instance()->CreateObject(new Asteroid(glm::vec2(position.x, position.y),
 				glm::vec2(1), 0, obstacle_name, 128, 128, false, -1, true, 0, { 255, 255, 255, 255 },
-				true, true, obstacles_speed, direction, player));
+				true, true, true, glm::vec2(100), glm::vec2(0), obstacles_speed, direction, player));
 		}
 	}
 }
