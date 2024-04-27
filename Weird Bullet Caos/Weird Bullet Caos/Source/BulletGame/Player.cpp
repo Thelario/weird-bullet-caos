@@ -91,4 +91,19 @@ namespace BulletGame
 			}
 		}
 	}
+
+	void Player::OnCollisionEnter(GameObject* other)
+	{
+		LoggerManager::Log("Player collision enter.");
+	}
+
+	void Player::OnCollisionStay(GameObject* other)
+	{
+		LoggerManager::Log("Player collision stay.");
+	}
+
+	void Player::OnCollisionExit(GameObject* other)
+	{
+		LoggerManager::Log("Player collision exit.");
+	}
 }

@@ -6,10 +6,16 @@ using namespace Satellite;
 
 namespace BulletGame
 {
+	struct ObstacleInfo
+	{
+		std::string id;
+		glm::vec2 collider_size;
+	};
+
 	class Spawner : public GameObject
 	{
 	private:
-		std::string obstacles[4];
+		ObstacleInfo obstacles[4];
 
 		float obstacles_speed;
 		float spawn_distance_from_center;

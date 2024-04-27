@@ -7,10 +7,10 @@ namespace Satellite
 {
 	GameObject::GameObject(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
 		bool flip_x, int tile_id, bool center_aligned, int z_index, SDL_Color color, bool enabled, bool renderable, bool collidable,
-		glm::vec2 size, glm::vec2 offset)
+		glm::vec2 size, glm::vec2 offset, ColliderTag tag)
 		: position(position), scale(scale), rotation(rotation), texture_id(texture_id), width(width), height(height), flip_x(flip_x),
 		tile_id(tile_id), center_aligned(center_aligned), z_index(z_index), color(color), enabled(enabled), renderable(renderable),
-		collidable(collidable), size(size), offset(offset)
+		collidable(collidable), size(size), offset(offset), collider_color({0, 255, 0, 255}), tag(tag), colliding(false)
 	{ }
 
 	void GameObject::Start() {
@@ -70,9 +70,38 @@ namespace Satellite
 			static_cast<int>(size.y)
 		};
 
-		SDL_SetRenderDrawColor(Engine::Instance()->GetRenderer(), 0, 255, 0, 255);
+		SDL_SetRenderDrawColor(Engine::Instance()->GetRenderer(), collider_color.r, collider_color.g, collider_color.b, collider_color.a);
 		SDL_RenderDrawRect(Engine::Instance()->GetRenderer(), &outline_rect);
 	}
+
+	void GameObject::RestartCollisionData(GameObject* other)
+	{
+		if (colliding == false) {
+			return;
+		}
+
+		colliding = false;
+		OnCollisionExit(other);
+	}
+
+	void GameObject::HandleCollisionEvent(GameObject* other)
+	{
+		if (colliding == true)
+		{
+			OnCollisionStay(other);
+		}
+		else
+		{
+			colliding = true;
+			OnCollisionEnter(other);
+		}
+	}
+
+	void GameObject::OnCollisionEnter(GameObject* other) { }
+
+	void GameObject::OnCollisionStay(GameObject* other) { }
+
+	void GameObject::OnCollisionExit(GameObject* other) { }
 
 	void GameObject::SetColor(SDL_Color color)
 	{
@@ -86,10 +115,13 @@ namespace Satellite
 		}
 	}
 
+	void GameObject::SetColliderColor(SDL_Color color) { collider_color = color; }
 	void GameObject::Renderable(bool renderable) { this->renderable = renderable; }
 	void GameObject::Enable(bool enabled) { this->enabled = enabled; }
 	void GameObject::SetPosition(glm::vec2 position) { this->position = position; }
 	void GameObject::SetRotation(double rotation) { this->rotation = rotation; }
 
 	glm::vec2 GameObject::GetPosition() { return position; }
+	glm::vec2 GameObject::GetSize() { return size; }
+	glm::vec2 GameObject::GetOffset() { return offset; }
 }

@@ -94,8 +94,8 @@ namespace Satellite
 		{
 			ProcessInput();
             Update();
+            game->HandleCollisions();
             Render();
-
             game->DestroyGameObjects();
             game->CreateGameObjects();
 		}

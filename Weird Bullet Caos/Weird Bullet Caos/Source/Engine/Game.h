@@ -16,6 +16,7 @@ namespace Satellite
 	public:
 		virtual void Start();
 		virtual void Update();
+		void HandleCollisions();
 		void Render();
 		void Destroy();
 

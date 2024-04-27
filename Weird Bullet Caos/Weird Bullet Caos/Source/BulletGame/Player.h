@@ -28,6 +28,10 @@ namespace BulletGame
 		void Start() override;
 		void Update() override;
 
+		void OnCollisionEnter(GameObject* other) override;
+		void OnCollisionStay(GameObject* other) override;
+		void OnCollisionExit(GameObject* other) override;
+
 		void MoveAndRotate();
 		void Shoot();
 	};

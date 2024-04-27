@@ -18,6 +18,7 @@ namespace BulletGame
 		Engine::Instance()->SetRenderLogicalSize(glm::vec2(1920, 1080));
 		Engine::Instance()->SetWindowTitle("Weird Bullet Caos");
 		Engine::Instance()->SetBackgroundColor({ 0, 0, 0, 255 });
+		
 		SoundsManager::Instance()->AddSound("sfx_shoot.wav", "shoot");
 
 		// Initial objects creation

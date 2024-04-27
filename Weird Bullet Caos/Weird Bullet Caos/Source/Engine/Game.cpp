@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "LoggerManager.h"
+#include "Engine.h"
 
 namespace Satellite
 {
@@ -18,6 +19,74 @@ namespace Satellite
 		{
 			if (game_object != nullptr && game_object->enabled == true) {
 				game_object->Update();
+			}
+		}
+	}
+
+	void Game::HandleCollisions()
+	{
+		// AABB Collision: expensive but easy to implement O(n^2).
+
+		for (auto i = gameobjects.begin(); i != gameobjects.end(); i++)
+		{
+			auto a = *i;
+
+			if (a->collidable == false) {
+				continue;
+			}
+
+			float pos_x = a->GetPosition().x - (a->GetSize().x / 2);
+			float pos_y = a->GetPosition().y - (a->GetSize().y / 2);
+
+			SDL_Rect a_rect = {
+				static_cast<int>(pos_x + a->GetOffset().x),
+				static_cast<int>(pos_y + a->GetOffset().y),
+				static_cast<int>(a->GetSize().x),
+				static_cast<int>(a->GetSize().y)
+			};
+
+			for (auto j = (i + 1); j != gameobjects.end(); j++)
+			{
+				auto b = *j;
+
+				if (b->collidable == false) {
+					continue;
+				}
+
+				float pos_x = b->GetPosition().x - (b->GetSize().x / 2);
+				float pos_y = b->GetPosition().y - (b->GetSize().y / 2);
+
+				SDL_Rect b_rect = {
+					static_cast<int>(pos_x + b->GetOffset().x),
+					static_cast<int>(pos_y + b->GetOffset().y),
+					static_cast<int>(b->GetSize().x),
+					static_cast<int>(b->GetSize().y)
+				};
+
+				if (SDL_HasIntersection(&a_rect, &b_rect)) // Collision!!!
+				{
+					a->HandleCollisionEvent(b);
+					b->HandleCollisionEvent(a);
+
+					if (Engine::Instance()->Debugging() == false) {
+						continue;
+					}
+
+					a->SetColliderColor({ 255, 0, 0, 255 });
+					b->SetColliderColor({ 255, 0, 0, 255 });
+				}
+				else
+				{
+					a->RestartCollisionData(b);
+					b->RestartCollisionData(a);
+
+					if (Engine::Instance()->Debugging() == false) {
+						continue;
+					}
+
+					a->SetColliderColor({ 0, 255, 0, 255 });
+					b->SetColliderColor({ 0, 255, 0, 255 });
+				}
 			}
 		}
 	}

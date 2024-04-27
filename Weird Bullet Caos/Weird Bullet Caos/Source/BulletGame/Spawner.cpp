@@ -17,10 +17,10 @@ namespace BulletGame
 	{
 		GameObject::Start();
 
-		obstacles[0] = "asteroid-small";
-		obstacles[1] = "asteroid-large";
-		obstacles[2] = "asteroid-square-small";
-		obstacles[3] = "asteroid-square-large";
+		obstacles[0] = { "asteroid-small", glm::vec2(60, 60) };
+		obstacles[1] = { "asteroid-large", glm::vec2(100, 100) };
+		obstacles[2] = { "asteroid-square-small", glm::vec2(60, 60) };
+		obstacles[3] = { "asteroid-square-large", glm::vec2(100, 100) };
 
 		obstacles_speed = 200;
 		spawn_distance_from_center = 1200;
@@ -53,11 +53,11 @@ namespace BulletGame
 			direction = player->GetPosition() - position;
 			direction = glm::normalize(direction);
 
-			std::string obstacle_name = obstacles[Engine::Instance()->GetRandom()->GenerateRandomInteger(0, 3)];
+			ObstacleInfo obstacle = obstacles[Engine::Instance()->GetRandom()->GenerateRandomInteger(0, 3)];
 
 			Engine::Instance()->CreateObject(new Asteroid(glm::vec2(position.x, position.y),
-				glm::vec2(1), 0, obstacle_name, 128, 128, false, -1, true, 0, { 255, 255, 255, 255 },
-				true, true, true, glm::vec2(100), glm::vec2(0), obstacles_speed, direction, player));
+				glm::vec2(1), 0, obstacle.id, 128, 128, false, -1, true, 0, { 255, 255, 255, 255 },
+				true, true, true, obstacle.collider_size, glm::vec2(0), obstacles_speed, direction, player));
 		}
 	}
 }
