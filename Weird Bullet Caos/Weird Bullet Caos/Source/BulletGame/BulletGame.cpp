@@ -40,5 +40,9 @@ namespace BulletGame
 		if (InputManager::GetKey(KeyCode::ESCAPE)) {
 			Engine::Instance()->SetIsRunning(false);
 		}
+
+		if (InputManager::GetKey(KeyCode::Q)) {
+			Engine::Instance()->SetDebugging(Engine::Instance()->Debugging() ? false : true);
+		}
 	}
 }

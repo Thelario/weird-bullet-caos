@@ -26,4 +26,12 @@ namespace BulletGame
 			Engine::Instance()->DestroyObject(this);
 		}
 	}
+
+	void Asteroid::OnCollisionEnter(GameObject* other)
+	{
+		if (other->CompareTag(ColliderTag::BULLET))
+		{
+			Engine::Instance()->DestroyObject(this);
+		}
+	}
 }

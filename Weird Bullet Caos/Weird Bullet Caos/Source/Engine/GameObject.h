@@ -69,6 +69,7 @@ namespace Satellite
 		void SetPosition(glm::vec2 position);
 		void SetRotation(double rotation);
 
+		bool CompareTag(ColliderTag tag);
 		ColliderTag GetTag();
 		glm::vec2 GetPosition();
 		glm::vec2 GetSize();

@@ -83,7 +83,7 @@ namespace BulletGame
 				fire_rate_counter = SDL_GetTicks();
 
 				Bullet* bullet = new Bullet(position, glm::vec2(0.8, 1.6), rotation, "basic-shapes", 32, 32, false, 1, true,
-					0, { 255, 255, 255, 255 }, true, true, true, glm::vec2(40, 40), glm::vec2(0), bullet_speed, direction);
+					0, { 255, 255, 255, 255 }, true, true, true, glm::vec2(40, 40), glm::vec2(0), ColliderTag::BULLET, bullet_speed, direction);
 
 				Engine::Instance()->CreateObject(bullet);
 
@@ -94,16 +94,9 @@ namespace BulletGame
 
 	void Player::OnCollisionEnter(GameObject* other)
 	{
-		LoggerManager::Log("Player collision enter.");
-	}
-
-	void Player::OnCollisionStay(GameObject* other)
-	{
-		LoggerManager::Log("Player collision stay.");
-	}
-
-	void Player::OnCollisionExit(GameObject* other)
-	{
-		LoggerManager::Log("Player collision exit.");
+		if (other->CompareTag(ColliderTag::OBSTACLE))
+		{
+			Engine::Instance()->DestroyObject(other);
+		}
 	}
 }

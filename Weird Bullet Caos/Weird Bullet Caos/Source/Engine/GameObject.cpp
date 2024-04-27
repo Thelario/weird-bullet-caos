@@ -134,6 +134,7 @@ namespace Satellite
 	void GameObject::SetPosition(glm::vec2 position) { this->position = position; }
 	void GameObject::SetRotation(double rotation) { this->rotation = rotation; }
 
+	bool GameObject::CompareTag(ColliderTag tag) { return this->tag == tag; }
 	ColliderTag GameObject::GetTag() { return tag; }
 	glm::vec2 GameObject::GetPosition() { return position; }
 	glm::vec2 GameObject::GetSize() { return size; }
