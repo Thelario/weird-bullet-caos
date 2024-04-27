@@ -10,7 +10,7 @@ namespace Satellite
 		glm::vec2 size, glm::vec2 offset, ColliderTag tag)
 		: position(position), scale(scale), rotation(rotation), texture_id(texture_id), width(width), height(height), flip_x(flip_x),
 		tile_id(tile_id), center_aligned(center_aligned), z_index(z_index), color(color), enabled(enabled), renderable(renderable),
-		collidable(collidable), size(size), offset(offset), collider_color({0, 255, 0, 255}), tag(tag), colliding(false)
+		collidable(collidable), size(size), offset(offset), collider_color({0, 255, 0, 255}), tag(tag)
 	{ }
 
 	void GameObject::Start() {
@@ -76,24 +76,37 @@ namespace Satellite
 
 	void GameObject::RestartCollisionData(GameObject* other)
 	{
-		if (colliding == false) {
+		auto it = collision_info.find(other);
+
+		if (it == collision_info.end())
+		{
+			// We were not colliding with an object with are also not colliding now, so do nothing
+
 			return;
 		}
 
-		colliding = false;
+		// We stopped colliding with an object we were colliding with
+
+		collision_info.erase(other);
 		OnCollisionExit(other);
 	}
 
 	void GameObject::HandleCollisionEvent(GameObject* other)
 	{
-		if (colliding == true)
+		auto it = collision_info.find(other);
+
+		if (it == collision_info.end())
 		{
-			OnCollisionStay(other);
+			// We are not colliding with an object we were not colliding with
+
+			collision_info.emplace(other, true);
+			OnCollisionEnter(other);
 		}
 		else
 		{
-			colliding = true;
-			OnCollisionEnter(other);
+			// We are colliding again with an object we were colliding before
+
+			OnCollisionStay(other);
 		}
 	}
 
@@ -121,6 +134,7 @@ namespace Satellite
 	void GameObject::SetPosition(glm::vec2 position) { this->position = position; }
 	void GameObject::SetRotation(double rotation) { this->rotation = rotation; }
 
+	ColliderTag GameObject::GetTag() { return tag; }
 	glm::vec2 GameObject::GetPosition() { return position; }
 	glm::vec2 GameObject::GetSize() { return size; }
 	glm::vec2 GameObject::GetOffset() { return offset; }

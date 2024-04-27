@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <SDL.h>
+#include <unordered_map>
 
 #include "TexturesManager.h"
 
@@ -38,11 +39,11 @@ namespace Satellite
 
 		// Collider data
 
-		bool colliding;
 		glm::vec2 size;
 		glm::vec2 offset;
 		SDL_Color collider_color;
 		ColliderTag tag;
+		std::unordered_map<GameObject*, bool> collision_info;
 
 	public:
 		GameObject(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
@@ -68,6 +69,7 @@ namespace Satellite
 		void SetPosition(glm::vec2 position);
 		void SetRotation(double rotation);
 
+		ColliderTag GetTag();
 		glm::vec2 GetPosition();
 		glm::vec2 GetSize();
 		glm::vec2 GetOffset();
