@@ -32,8 +32,7 @@ namespace BulletGame
 
 		// Stop game
 		if (InputManager::GetKeyDown(KeyCode::ESCAPE)) {
-			game_has_started = false;
-			DestroyObjects();
+			StopGame();
 		}
 
 		// Set debug mode
@@ -46,12 +45,22 @@ namespace BulletGame
 		{
 			game_has_started = true;
 
-			GameObject* player = CreateObject(new Player(glm::vec2(Engine::Instance()->GetWindowWidth() / 2,
+			Player* player = new Player(glm::vec2(Engine::Instance()->GetWindowWidth() / 2,
 				Engine::Instance()->GetWindowHeight() / 2), glm::vec2(1), 0, "ship", 128, 128, false, -1, true, 0,
-				{ 223, 208, 184, 255 }, true, true, true, glm::vec2(70, 70), glm::vec2(0), ColliderTag::PLAYER));
+				{ 223, 208, 184, 255 }, true, true, true, glm::vec2(70, 70), glm::vec2(0), ColliderTag::PLAYER, this);
+
+			CreateObject(player);
 
 			CreateObject(new Spawner(glm::vec2(Engine::Instance()->GetWindowWidth() / 2, Engine::Instance()->GetWindowHeight() / 2),
 				glm::vec2(1), 0, "", 0, 0, false, -1, true, 0, { 255, 255, 255, 255 }, true, false, player));
+
+			player->CreateHearts();
 		}
+	}
+
+	void BulletGame::StopGame()
+	{
+		game_has_started = false;
+		DestroyObjects();
 	}
 }

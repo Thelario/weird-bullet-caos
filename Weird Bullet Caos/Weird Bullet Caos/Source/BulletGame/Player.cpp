@@ -7,12 +7,15 @@
 #include "../Engine/InputManager.h"
 #include "../Engine/Engine.h"
 
+#include "BulletGame.h"
+
 namespace BulletGame
 {
 	Player::Player(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
 		bool flip_x, int tile_id, bool center_aligned, int z_index, SDL_Color color, bool enabled, bool renderable, bool collidable,
-		glm::vec2 size, glm::vec2 offset, ColliderTag tag) : GameObject(position, scale, rotation, texture_id, width, height, flip_x, tile_id,
-			center_aligned, z_index, color, enabled, renderable, collidable, size, offset, tag)
+		glm::vec2 size, glm::vec2 offset, ColliderTag tag, BulletGame* bullet_game) : GameObject(position, scale, rotation, texture_id,
+		width, height, flip_x, tile_id, center_aligned, z_index, color, enabled, renderable, collidable, size, offset, tag),
+		bullet_game(bullet_game)
 	{ }
 
 	void Player::Start()
@@ -28,6 +31,31 @@ namespace BulletGame
 		fire_rate_counter = SDL_GetTicks();
 	}
 
+	void Player::DestroyHearts()
+	{
+		for (GameObject* heart : hearts) {
+			Engine::Instance()->DestroyObject(heart);
+		}
+
+		hearts.clear();
+	}
+
+	void Player::CreateHearts()
+	{
+		float offset = player_stats.current_health / 2.0;
+		float start_x = Engine::Instance()->GetWindowWidth() / 2 - offset * 64;
+
+		for (int i = 0; i < player_stats.current_health; i++)
+		{
+			GameObject* heart = new GameObject(glm::vec2(start_x + 64 * i, 64),
+				glm::vec2(0.1), 0, "heart-full", 640, 640, false, -1, true, 0, color, true, true);
+
+			Engine::Instance()->CreateObject(heart);
+
+			hearts.push_back(heart);
+		}
+	}
+
 	void Player::Update()
 	{
 		MoveAndRotate();
@@ -37,6 +65,10 @@ namespace BulletGame
 	void Player::MoveAndRotate()
 	{
 		double dt = Engine::Instance()->GetDeltaTime();
+
+		if (InputManager::GetKeyUp(KeyCode::H)) {
+			Heal();
+		}
 
 		// Gather rotation input
 
@@ -72,6 +104,7 @@ namespace BulletGame
 		if (position.x < 0 || position.x > Engine::Instance()->GetWindowWidth() ||
 			position.y < 0 || position.y > Engine::Instance()->GetWindowHeight()) {
 			position = glm::vec2(Engine::Instance()->GetWindowWidth() / 2, Engine::Instance()->GetWindowHeight() / 2);
+			TakeDamage();
 		}
 	}
 
@@ -93,12 +126,31 @@ namespace BulletGame
 		}
 	}
 
+	void Player::TakeDamage()
+	{
+		player_stats.current_health--;
+		DestroyHearts();
+		CreateHearts();
+
+		if (player_stats.current_health <= 0) {
+			bullet_game->StopGame();
+		}
+	}
+
+	void Player::Heal()
+	{
+		player_stats.current_health++;
+		DestroyHearts();
+		CreateHearts();
+	}
+
 	void Player::OnCollisionEnter(GameObject* other)
 	{
 		if (other->CompareTag(ColliderTag::OBSTACLE))
 		{
 			SoundsManager::Instance()->PlaySound("player-hit");
 			Engine::Instance()->DestroyObject(other);
+			TakeDamage();
 		}
 	}
 }

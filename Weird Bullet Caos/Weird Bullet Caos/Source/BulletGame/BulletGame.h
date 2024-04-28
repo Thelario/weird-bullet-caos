@@ -13,6 +13,8 @@ namespace BulletGame
 		bool game_has_started = false;
 
 	public:
+		void StopGame();
+
 		void Start() override;
 		void Update() override;
 	};
