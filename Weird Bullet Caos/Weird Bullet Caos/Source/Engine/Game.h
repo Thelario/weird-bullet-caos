@@ -20,11 +20,13 @@ namespace Satellite
 		void Render();
 		void Destroy();
 
-		void CreateObject(GameObject* gameobject);
+		GameObject* CreateObject(GameObject* gameobject);
 		void DestroyObject(GameObject* gameobject);
 		void DestroyObjects();
 
 		void CreateGameObjects();
 		void DestroyGameObjects();
+
+		int GetGameObjectsCount();
 	};
 }

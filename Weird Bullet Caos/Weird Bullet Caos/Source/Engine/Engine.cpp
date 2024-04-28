@@ -24,6 +24,10 @@ namespace Satellite
 	{
 		// Start up engine systems in the correct order.
 
+        fps = 0;
+        frame_count = 0;
+        time_passed = 0;
+
         // Initialize variables that can later be changed
         real_window_size = glm::vec2(960, 540);
         render_logical_size = glm::vec2(960, 540);
@@ -332,19 +336,37 @@ namespace Satellite
 
     void Engine::Update()
     {
-        int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - milliseconds_previous_frame);
-        if (timeToWait > 0 && timeToWait <= MILLISECS_PER_FRAME) {
-            SDL_Delay(timeToWait);
+        // Capping frame rate
+
+        int time_to_wait = MILLISECS_PER_FRAME - (SDL_GetTicks() - milliseconds_previous_frame);
+        if (time_to_wait > 0 && time_to_wait <= MILLISECS_PER_FRAME) {
+            SDL_Delay(time_to_wait);
         }
+
+        // Calculating delta time
 
         delta_time = (SDL_GetTicks() - milliseconds_previous_frame) / 1000.0;
         if (delta_time > 1000) {
             delta_time = 0;
         }
+        
+        time_passed += delta_time;
 
         milliseconds_previous_frame = SDL_GetTicks();
 
+        // Updating all the game
+
         game->Update();
+
+        // Calculating real fps
+
+        frame_count++;
+        if (time_passed >= 1)
+        {
+            time_passed = 0;
+            fps = frame_count;
+            frame_count = 0;
+        }     
     }
 
     void Engine::Render()
@@ -376,21 +398,19 @@ namespace Satellite
         SDL_Quit();
 	}
 
-    GameObject* Engine::CreateObject(GameObject* game_object)
+    // Creating and destroying gameobjects
+
+    GameObject* Engine::CreateObject(GameObject* gameobject) { return game->CreateObject(gameobject); }
+    void Engine::DestroyObject(GameObject* gameobject) { game->DestroyObject(gameobject); }
+    void Engine::DestroyObjects() { game->DestroyObjects(); }
+    void Engine::DestroyObjects(std::vector<GameObject*> gameobjects)
     {
-        game->CreateObject(game_object);
-        return game_object;
+        for (GameObject* gameobject : gameobjects) {
+            DestroyObject(gameobject);
+        }
     }
 
-    void Engine::DestroyObject(GameObject* game_object)
-    {
-        game->DestroyObject(game_object);
-    }
-
-    void Engine::DestroyObjects()
-    {
-        game->DestroyObjects();
-    }
+    // Getters to some of the engine variables
 
     bool Engine::Debugging() { return debug; }
     int Engine::GetWindowWidth() { return render_logical_size.x; }
@@ -398,6 +418,8 @@ namespace Satellite
     double Engine::GetDeltaTime() { return delta_time; }
     SDL_Renderer* Engine::GetRenderer() { return renderer; }
     Random* Engine::GetRandom() { return random; }
+
+    // Setters to some of the engine variables
 
     void Engine::SetDebugging(bool debug) { this->debug = debug; }
     void Engine::SetFullsCreen(bool fullscreen) { SDL_SetWindowFullscreen(window, fullscreen ? 0 : SDL_WINDOW_FULLSCREEN); }

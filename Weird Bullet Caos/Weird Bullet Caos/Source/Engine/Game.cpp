@@ -137,9 +137,10 @@ namespace Satellite
 		}
 	}
 
-	void Game::CreateObject(GameObject* gameobject)
+	GameObject* Game::CreateObject(GameObject* gameobject)
 	{
 		gameobjects_to_add.push_back(gameobject);
+		return gameobject;
 	}
 
 	void Game::DestroyObject(GameObject* gameobject)
@@ -181,4 +182,6 @@ namespace Satellite
 
 		gameobjects_to_remove.clear();
 	}
+
+	int Game::GetGameObjectsCount() { return gameobjects.size(); }
 }

@@ -19,12 +19,13 @@ namespace BulletGame
 	{
 		GameObject::Start();
 
+		player_stats.movement_speed = 200;
+		player_stats.rotation_speed = 100;
+		player_stats.fire_rate = 0.5 * 1000;
+		player_stats.bullet_speed = 700;
+
 		direction = glm::vec2(0, 1);
-		movement_speed = 200;
-		rotation_speed = 100;
-		fire_rate = 0.5 * 1000;
 		fire_rate_counter = SDL_GetTicks();
-		bullet_speed = 700;
 	}
 
 	void Player::Update()
@@ -40,11 +41,11 @@ namespace BulletGame
 		// Gather rotation input
 
 		if (InputManager::GetKeyDown(KeyCode::A)) {
-			rotation -= rotation_speed * dt;
+			rotation -= player_stats.rotation_speed * dt;
 		}
 
 		if (InputManager::GetKeyDown(KeyCode::D)) {
-			rotation += rotation_speed * dt;
+			rotation += player_stats.rotation_speed * dt;
 		}
 
 		// Clamp the rotation
@@ -63,8 +64,8 @@ namespace BulletGame
 
 		// Move
 
-		position.x += dt * movement_speed * direction.x;
-		position.y += dt * movement_speed * direction.y;
+		position.x += dt * player_stats.movement_speed * direction.x;
+		position.y += dt * player_stats.movement_speed * direction.y;
 
 		// Check if player outside the limits
 
@@ -78,12 +79,12 @@ namespace BulletGame
 	{
 		if (InputManager::GetMouseButtonDown(0))
 		{
-			if (SDL_GetTicks() - fire_rate_counter >= fire_rate)
+			if (SDL_GetTicks() - fire_rate_counter >= player_stats.fire_rate)
 			{
 				fire_rate_counter = SDL_GetTicks();
 
 				Bullet* bullet = new Bullet(position, glm::vec2(0.8, 1.6), rotation, "basic-shapes", 32, 32, false, 1, true,
-					0, { 255, 255, 255, 255 }, true, true, true, glm::vec2(40, 40), glm::vec2(0), ColliderTag::BULLET, bullet_speed, direction);
+					0, { 223, 208, 184, 255 }, true, true, true, glm::vec2(40, 40), glm::vec2(0), ColliderTag::BULLET, player_stats.bullet_speed, direction);
 
 				Engine::Instance()->CreateObject(bullet);
 

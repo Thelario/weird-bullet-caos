@@ -10,14 +10,21 @@ using namespace Satellite;
 
 namespace BulletGame
 {
-	class Player : public GameObject
+	struct PlayerStats
 	{
-	private:
-		glm::vec2 direction;
 		float movement_speed;
 		float rotation_speed;
 		float bullet_speed;
 		float fire_rate;
+		int current_health;
+		int max_health;
+	};
+
+	class Player : public GameObject
+	{
+	private:
+		glm::vec2 direction;
+		PlayerStats player_stats;
 		float fire_rate_counter;
 
 	public:

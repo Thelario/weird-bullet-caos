@@ -17,7 +17,10 @@ namespace Satellite
 			bool is_running;
 			bool debug;
 			
+			int fps;
+			int frame_count;
 			Uint32 milliseconds_previous_frame;
+			double time_passed;
 			double delta_time;
 
 			SDL_Color background_color;
@@ -40,9 +43,10 @@ namespace Satellite
 			void Update();
 			void Render();
 
-			GameObject* CreateObject(GameObject* game_object);
-			void DestroyObject(GameObject* game_object);
+			GameObject* CreateObject(GameObject* gameobject);
+			void DestroyObject(GameObject* gameobject);
 			void DestroyObjects();
+			void DestroyObjects(std::vector<GameObject*> gameobjects);
 
 			bool Debugging();
 			int GetWindowWidth();

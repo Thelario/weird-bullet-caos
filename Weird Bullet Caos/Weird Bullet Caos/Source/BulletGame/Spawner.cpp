@@ -56,7 +56,7 @@ namespace BulletGame
 			ObstacleInfo obstacle = obstacles[Engine::Instance()->GetRandom()->GenerateRandomInteger(0, 3)];
 
 			Engine::Instance()->CreateObject(new Asteroid(glm::vec2(position.x, position.y),
-				glm::vec2(1), 0, obstacle.id, 128, 128, false, -1, true, 0, { 255, 255, 255, 255 },
+				glm::vec2(1), 0, obstacle.id, 128, 128, false, -1, true, 0, { 148, 137, 121, 255 },
 				true, true, true, obstacle.collider_size, glm::vec2(0), ColliderTag::OBSTACLE, obstacles_speed, direction, player));
 		}
 	}

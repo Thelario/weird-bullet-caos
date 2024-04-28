@@ -41,6 +41,20 @@
       "width": 128,
       "height": 128,
       "tile_size": 0
+    },
+    {
+      "asset_id": "heart-empty",
+      "name": "heart_empty.png",
+      "width": 640,
+      "height": 640,
+      "tile_size": 0
+    },
+    {
+      "asset_id": "heart-full",
+      "name": "heart_full.png",
+      "width": 640,
+      "height": 640,
+      "tile_size": 0
     }
   ]
 }
