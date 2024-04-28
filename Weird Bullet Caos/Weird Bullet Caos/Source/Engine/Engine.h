@@ -42,6 +42,7 @@ namespace Satellite
 
 			GameObject* CreateObject(GameObject* game_object);
 			void DestroyObject(GameObject* game_object);
+			void DestroyObjects();
 
 			bool Debugging();
 			int GetWindowWidth();

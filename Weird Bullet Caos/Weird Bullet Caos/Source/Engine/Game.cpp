@@ -16,10 +16,10 @@ namespace Satellite
 	{
 		// We only update objects that are enabled
 
-		for (GameObject* game_object : gameobjects)
+		for (GameObject* gameobject : gameobjects)
 		{
-			if (game_object != nullptr && game_object->enabled == true) {
-				game_object->Update();
+			if (gameobject != nullptr && gameobject->enabled == true) {
+				gameobject->Update();
 			}
 		}
 	}
@@ -122,29 +122,36 @@ namespace Satellite
 	{
 		// We only render objects that are enabled and are marked as renderable
 
-		for (GameObject* game_object : gameobjects)
+		for (GameObject* gameobject : gameobjects)
 		{
-			if (game_object != nullptr && game_object->enabled == true && game_object->renderable == true) {
-				game_object->Render();
+			if (gameobject != nullptr && gameobject->enabled == true && gameobject->renderable == true) {
+				gameobject->Render();
 			}
 		}
 	}
 
 	void Game::Destroy()
 	{
-		for (GameObject* game_object : gameobjects) {
-			delete game_object;
+		for (GameObject* gameobject : gameobjects) {
+			delete gameobject;
 		}
 	}
 
-	void Game::CreateObject(GameObject* game_object)
+	void Game::CreateObject(GameObject* gameobject)
 	{
-		gameobjects_to_add.push_back(game_object);
+		gameobjects_to_add.push_back(gameobject);
 	}
 
-	void Game::DestroyObject(GameObject* game_object)
+	void Game::DestroyObject(GameObject* gameobject)
 	{
-		gameobjects_to_remove.push_back(game_object);
+		gameobjects_to_remove.push_back(gameobject);
+	}
+
+	void Game::DestroyObjects()
+	{
+		for (GameObject* gameobject : gameobjects) {
+			DestroyObject(gameobject);
+		}
 	}
 
 	void Game::CreateGameObjects()

@@ -96,8 +96,8 @@ namespace Satellite
             Update();
             game->HandleCollisions();
             Render();
-            game->DestroyGameObjects();
             game->CreateGameObjects();
+            game->DestroyGameObjects();
 		}
 	}
 
@@ -202,6 +202,9 @@ namespace Satellite
                 case SDLK_TAB:
                     InputManager::SetKey(KeyCode::TAB, true);
                     break;
+                case SDLK_SPACE:
+                    InputManager::SetKey(KeyCode::SPACE, true);
+                    break;
                 }
                 break;
             case SDL_KEYUP:
@@ -291,6 +294,9 @@ namespace Satellite
                 case SDLK_TAB:
                     InputManager::SetKey(KeyCode::TAB, false);
                     break;
+                case SDLK_SPACE:
+                    InputManager::SetKey(KeyCode::SPACE, false);
+                    break;
                 }
                 break;
             case SDL_MOUSEMOTION:
@@ -376,7 +382,15 @@ namespace Satellite
         return game_object;
     }
 
-    void Engine::DestroyObject(GameObject* game_object) { game->DestroyObject(game_object); }
+    void Engine::DestroyObject(GameObject* game_object)
+    {
+        game->DestroyObject(game_object);
+    }
+
+    void Engine::DestroyObjects()
+    {
+        game->DestroyObjects();
+    }
 
     bool Engine::Debugging() { return debug; }
     int Engine::GetWindowWidth() { return render_logical_size.x; }

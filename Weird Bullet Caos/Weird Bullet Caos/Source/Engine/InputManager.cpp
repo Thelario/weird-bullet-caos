@@ -34,7 +34,8 @@ namespace Satellite
 		{ KeyCode::Y, KeyEvent(false, false) },
 		{ KeyCode::Z, KeyEvent(false, false) },
 		{ KeyCode::ESCAPE, KeyEvent(false, false) },
-		{ KeyCode::TAB, KeyEvent(false, false) }
+		{ KeyCode::TAB, KeyEvent(false, false) },
+		{ KeyCode::SPACE, KeyEvent(false, false) }
 	};
 
 	glm::vec2 InputManager::mouse_position = glm::vec2(0);
