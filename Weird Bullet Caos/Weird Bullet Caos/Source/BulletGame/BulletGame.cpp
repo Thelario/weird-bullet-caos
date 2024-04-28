@@ -1,5 +1,6 @@
 #include "BulletGame.h"
 
+#include "../Engine/LoggerManager.h"
 #include "../Engine/SoundsManager.h"
 #include "../Engine/InputManager.h"
 #include "../Engine/Engine.h"
@@ -20,6 +21,8 @@ namespace BulletGame
 		Engine::Instance()->SetBackgroundColor({ 0, 0, 0, 255 });
 		
 		SoundsManager::Instance()->AddSound("sfx_shoot.wav", "shoot");
+		SoundsManager::Instance()->AddSound("sfx_asteroid_hit.wav", "asteroid-hit");
+		SoundsManager::Instance()->AddSound("sfx_player_hit.wav", "player-hit");
 
 		// Initial objects creation
 
@@ -37,11 +40,11 @@ namespace BulletGame
 
 		// Stop game if escape is pressed
 
-		if (InputManager::GetKey(KeyCode::ESCAPE)) {
+		if (InputManager::GetKeyDown(KeyCode::ESCAPE)) {
 			Engine::Instance()->SetIsRunning(false);
 		}
 
-		if (InputManager::GetKey(KeyCode::Q)) {
+		if (InputManager::GetKeyUp(KeyCode::Q)) {
 			Engine::Instance()->SetDebugging(Engine::Instance()->Debugging() ? false : true);
 		}
 	}

@@ -26,7 +26,7 @@ namespace Satellite
 
 	void Game::HandleCollisions()
 	{
-		// AABB Collision: expensive but easy to implement O(n^2).
+		// AABB Collision: expensive O(n^2) but easy to implement. Works for now...
 
 		for (auto i = gameobjects.begin(); i != gameobjects.end(); i++)
 		{
@@ -75,19 +75,19 @@ namespace Satellite
 					a->HandleCollisionEvent(b);
 					b->HandleCollisionEvent(a);
 
-					// Debugging colliding info
+					// Debugging collision info
 
 					if (Engine::Instance()->Debugging() == false) {
 						continue;
 					}
 
-					const std::string a_name = Utils::GetTagName(a->GetTag());
-					const std::string b_name = Utils::GetTagName(b->GetTag());
+					// const std::string a_name = Utils::GetTagName(a->GetTag());
+					// const std::string b_name = Utils::GetTagName(b->GetTag());
 
-					LoggerManager::Log("Gameobject " + a_name + ": " + std::to_string(a_pos_x) + "," + std::to_string(a_pos_y));
-					LoggerManager::Log("Gameobject " + b_name + ": " + std::to_string(b_pos_x) + "," + std::to_string(b_pos_y));
-					LoggerManager::Log("Colliding: true");
-					LoggerManager::Log("");
+					// LoggerManager::Log("Gameobject " + a_name + ": " + std::to_string(a_pos_x) + "," + std::to_string(a_pos_y));
+					// LoggerManager::Log("Gameobject " + b_name + ": " + std::to_string(b_pos_x) + "," + std::to_string(b_pos_y));
+					// LoggerManager::Log("Colliding: true");
+					// LoggerManager::Log("");
 
 					a->SetColliderColor({ 255, 0, 0, 255 });
 					b->SetColliderColor({ 255, 0, 0, 255 });
@@ -101,15 +101,15 @@ namespace Satellite
 						continue;
 					}
 
-					// Debugging colliding info
+					// Debugging collision info
 
-					const std::string a_name = Utils::GetTagName(a->GetTag());
-					const std::string b_name = Utils::GetTagName(b->GetTag());
+					// const std::string a_name = Utils::GetTagName(a->GetTag());
+					// const std::string b_name = Utils::GetTagName(b->GetTag());
 
-					LoggerManager::Log("Gameobject " + a_name + ": " + std::to_string(a_pos_x) + "," + std::to_string(a_pos_y));
-					LoggerManager::Log("Gameobject " + b_name + ": " + std::to_string(b_pos_x) + "," + std::to_string(b_pos_y));
-					LoggerManager::Log("Colliding: false");
-					LoggerManager::Log("");
+					// LoggerManager::Log("Gameobject " + a_name + ": " + std::to_string(a_pos_x) + "," + std::to_string(a_pos_y));
+					// LoggerManager::Log("Gameobject " + b_name + ": " + std::to_string(b_pos_x) + "," + std::to_string(b_pos_y));
+					// LoggerManager::Log("Colliding: false");
+					// LoggerManager::Log("");
 
 					a->SetColliderColor({ 0, 255, 0, 255 });
 					b->SetColliderColor({ 0, 255, 0, 255 });
@@ -162,6 +162,12 @@ namespace Satellite
 		for (GameObject* element_to_remove : gameobjects_to_remove)
 		{
 			auto it = std::find(gameobjects.begin(), gameobjects.end(), element_to_remove);
+
+			// Prevent deleting an object that was removed in a previous iteration of the loop
+			if (it == gameobjects.end()) {
+				continue;
+			}
+
 			gameobjects.erase(it);
 			delete element_to_remove;
 		}

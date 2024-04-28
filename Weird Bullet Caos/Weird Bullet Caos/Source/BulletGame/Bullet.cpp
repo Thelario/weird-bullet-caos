@@ -1,5 +1,6 @@
 #include "Bullet.h"
 
+#include "../Engine/SoundsManager.h"
 #include "../Engine/Engine.h"
 
 namespace BulletGame
@@ -22,6 +23,15 @@ namespace BulletGame
 
 		if (position.x < 0 || position.x > Engine::Instance()->GetWindowWidth() ||
 			position.y < 0 || position.y > Engine::Instance()->GetWindowHeight()) {
+			Engine::Instance()->DestroyObject(this);
+		}
+	}
+
+	void Bullet::OnCollisionEnter(GameObject* other)
+	{
+		if (other->CompareTag(ColliderTag::OBSTACLE) || other->CompareTag(ColliderTag::ENEMY))
+		{
+			SoundsManager::Instance()->PlaySound("asteroid-hit");
 			Engine::Instance()->DestroyObject(this);
 		}
 	}

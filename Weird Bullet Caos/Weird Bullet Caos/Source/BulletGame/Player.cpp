@@ -39,11 +39,11 @@ namespace BulletGame
 
 		// Gather rotation input
 
-		if (InputManager::GetKey(KeyCode::A)) {
+		if (InputManager::GetKeyDown(KeyCode::A)) {
 			rotation -= rotation_speed * dt;
 		}
 
-		if (InputManager::GetKey(KeyCode::D)) {
+		if (InputManager::GetKeyDown(KeyCode::D)) {
 			rotation += rotation_speed * dt;
 		}
 
@@ -96,6 +96,7 @@ namespace BulletGame
 	{
 		if (other->CompareTag(ColliderTag::OBSTACLE))
 		{
+			SoundsManager::Instance()->PlaySound("player-hit");
 			Engine::Instance()->DestroyObject(other);
 		}
 	}

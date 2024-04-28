@@ -19,5 +19,7 @@ namespace BulletGame
 			glm::vec2 offset = glm::vec2(0), ColliderTag tag = ColliderTag::BULLET, float speed = 0, glm::vec2 direction = glm::vec2(0));
 
 		void Update() override;
+
+		void OnCollisionEnter(GameObject* other) override;
 	};
 }

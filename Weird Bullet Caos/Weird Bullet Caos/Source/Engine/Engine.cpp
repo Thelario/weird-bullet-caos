@@ -105,8 +105,7 @@ namespace Satellite
     {
         SDL_Event event;
 
-        InputManager::SetMouseButtonUp(0, false);
-        InputManager::SetMouseButtonUp(1, false);
+        InputManager::ResetKeyStates();
 
         while (SDL_PollEvent(&event)) // Iterating through all the possible events that might have happened in this frame
         {

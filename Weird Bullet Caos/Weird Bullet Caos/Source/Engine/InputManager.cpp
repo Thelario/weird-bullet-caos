@@ -1,40 +1,40 @@
 #include "InputManager.h"
 
-#include <iostream>
+#include "LoggerManager.h"
 
 namespace Satellite
 {
-	std::unordered_map<KeyCode, bool> InputManager::keys =
+	std::unordered_map<KeyCode, KeyEvent> InputManager::keys =
 	{
-		{ KeyCode::A, false },
-		{ KeyCode::B, false },
-		{ KeyCode::C, false },
-		{ KeyCode::D, false },
-		{ KeyCode::E, false },
-		{ KeyCode::F, false },
-		{ KeyCode::G, false },
-		{ KeyCode::H, false },
-		{ KeyCode::I, false },
-		{ KeyCode::J, false },
-		{ KeyCode::K, false },
-		{ KeyCode::L, false },
-		{ KeyCode::M, false },
-		{ KeyCode::N, false },
-		{ KeyCode::Ñ, false },
-		{ KeyCode::O, false },
-		{ KeyCode::P, false },
-		{ KeyCode::Q, false },
-		{ KeyCode::R, false },
-		{ KeyCode::S, false },
-		{ KeyCode::T, false },
-		{ KeyCode::U, false },
-		{ KeyCode::V, false },
-		{ KeyCode::W, false },
-		{ KeyCode::X, false },
-		{ KeyCode::Y, false },
-		{ KeyCode::Z, false },
-		{ KeyCode::ESCAPE, false},
-		{ KeyCode::TAB, false}
+		{ KeyCode::A, KeyEvent(false, false) },
+		{ KeyCode::B, KeyEvent(false, false) },
+		{ KeyCode::C, KeyEvent(false, false) },
+		{ KeyCode::D, KeyEvent(false, false) },
+		{ KeyCode::E, KeyEvent(false, false) },
+		{ KeyCode::F, KeyEvent(false, false) },
+		{ KeyCode::G, KeyEvent(false, false) },
+		{ KeyCode::H, KeyEvent(false, false) },
+		{ KeyCode::I, KeyEvent(false, false) },
+		{ KeyCode::J, KeyEvent(false, false) },
+		{ KeyCode::K, KeyEvent(false, false) },
+		{ KeyCode::L, KeyEvent(false, false) },
+		{ KeyCode::M, KeyEvent(false, false) },
+		{ KeyCode::N, KeyEvent(false, false) },
+		{ KeyCode::Ñ, KeyEvent(false, false) },
+		{ KeyCode::O, KeyEvent(false, false) },
+		{ KeyCode::P, KeyEvent(false, false) },
+		{ KeyCode::Q, KeyEvent(false, false) },
+		{ KeyCode::R, KeyEvent(false, false) },
+		{ KeyCode::S, KeyEvent(false, false) },
+		{ KeyCode::T, KeyEvent(false, false) },
+		{ KeyCode::U, KeyEvent(false, false) },
+		{ KeyCode::V, KeyEvent(false, false) },
+		{ KeyCode::W, KeyEvent(false, false) },
+		{ KeyCode::X, KeyEvent(false, false) },
+		{ KeyCode::Y, KeyEvent(false, false) },
+		{ KeyCode::Z, KeyEvent(false, false) },
+		{ KeyCode::ESCAPE, KeyEvent(false, false) },
+		{ KeyCode::TAB, KeyEvent(false, false) }
 	};
 
 	glm::vec2 InputManager::mouse_position = glm::vec2(0);
@@ -48,32 +48,58 @@ namespace Satellite
 	/// Setting the keys' states
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	void InputManager::ResetKeyStates()
+	{
+		SetMouseButtonUp(0, false);
+		SetMouseButtonUp(1, false);
+
+		for (auto i = keys.begin(); i != keys.end(); i++) {
+			i->second.key_up = false;
+		}
+	}
+
 	void InputManager::SetKey(KeyCode key_code, bool value)
 	{
 		auto key = keys.find(key_code);
 
 		if (key == keys.end()) {
-			std::cout << "ERROR - The key couldn't be found!!!" << std::endl;
+			LoggerManager::Error("The key couldn't be found!!!");
 			return;
 		}
 
-		key->second = value;
+		key->second.key_down = value;
+
+		if (value == false) {
+			key->second.key_up = true;
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// Getting the keys' states
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool InputManager::GetKey(KeyCode key_code)
+	bool InputManager::GetKeyDown(KeyCode key_code)
 	{
 		auto key = keys.find(key_code);
 
 		if (key == keys.end()) {
-			std::cout << "ERROR - The key couldn't be found!!!" << std::endl;
+			LoggerManager::Error("The key couldn't be found!!!");
 			return false;
 		}
 
-		return key->second;
+		return key->second.key_down;
+	}
+
+	bool InputManager::GetKeyUp(KeyCode key_code)
+	{
+		auto key = keys.find(key_code);
+
+		if (key == keys.end()) {
+			LoggerManager::Error("The key couldn't be found!!!");
+			return false;
+		}
+
+		return key->second.key_up;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////

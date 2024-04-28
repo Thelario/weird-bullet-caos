@@ -25,7 +25,7 @@ namespace BulletGame
 		obstacles_speed = 200;
 		spawn_distance_from_center = 1200;
 		previous_time_between_obstacles = SDL_GetTicks();
-		time_between_obstacles = 2000;
+		time_between_obstacles = 100;
 	}
 
 	void Spawner::Update()
