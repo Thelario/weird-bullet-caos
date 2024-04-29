@@ -4,11 +4,13 @@
 
 #include "FontsManager.h"
 #include "LoggerManager.h"
+#include "Engine.h"
 
 namespace Satellite
 {
-	Text::Text(glm::vec2 position, glm::vec2 scale, const std::string& text, const std::string& asset_id, SDL_Color color)
-		: position(position), scale(scale), text(text), asset_id(asset_id), color(color), font(FontsManager::Instance()->GetFont(asset_id))
+	Text::Text(glm::vec2 position, glm::vec2 scale, const std::string& text, const std::string& asset_id, bool enabled, SDL_Color color)
+		: position(position), scale(scale), text(text), asset_id(asset_id), enabled(enabled), color(color),
+		  font(FontsManager::Instance()->GetFont(asset_id))
 	{ }
 
 	void Text::SetText(std::string new_text) { text = new_text; }
@@ -17,8 +19,10 @@ namespace Satellite
 
 	void Text::SetScale(glm::vec2 new_scale) { scale = new_scale; }
 
-	void Text::Render(SDL_Renderer* renderer)
+	void Text::Render()
 	{
+		SDL_Renderer* renderer = Engine::Instance()->GetRenderer();
+
 		if (font == nullptr) {
 			LoggerManager::Error("The font with " + asset_id + " was not loaded correctly and is a nullptr.");
 			return;

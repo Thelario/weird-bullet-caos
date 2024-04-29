@@ -1,5 +1,6 @@
 #include "Asteroid.h"
 
+#include "../Engine/LoggerManager.h"
 #include "../Engine/Engine.h"
 
 namespace BulletGame
@@ -13,12 +14,32 @@ namespace BulletGame
 		renderable, collidable, size, offset, tag), speed(speed), direction(direction), player(player)
 	{ }
 
+	void Asteroid::Start()
+	{
+		GameObject::Start();
+
+		animation_rate = 0.5;
+		min_size = glm::vec2(scale.x * 0.9, scale.y * 0.9);
+		max_size = glm::vec2(scale.x * 1.10, scale.y * 1.10);
+	}
+
 	void Asteroid::Update()
 	{
+		double dt = Engine::Instance()->GetDeltaTime();
+
 		// Move obstacle
 
-		position.x += Engine::Instance()->GetDeltaTime() * speed * direction.x;
-		position.y += Engine::Instance()->GetDeltaTime() * speed * direction.y;
+		position.x += dt * speed * direction.x;
+		position.y += dt * speed * direction.y;
+
+		// Animated obstacle
+
+		scale.x += dt * animation_rate;
+		scale.y += dt * animation_rate;
+
+		if ((scale.x >= max_size.x && scale.y >= max_size.y) || (scale.x <= min_size.x && scale.y <= min_size.y)) {
+			animation_rate *= -1;
+		}
 
 		// Destroy obstacle if is really far from player
 

@@ -9,10 +9,16 @@ namespace BulletGame
 	class Asteroid : public GameObject
 	{
 	private:
+		GameObject* player;
+
+		// Asteroid movement
 		float speed;
 		glm::vec2 direction;
-		
-		GameObject* player;
+
+		// Asteroid animation
+		glm::vec2 min_size;
+		glm::vec2 max_size;
+		float animation_rate;
 
 	public:
 		Asteroid(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
@@ -21,6 +27,7 @@ namespace BulletGame
 			glm::vec2 offset = glm::vec2(0), ColliderTag tag = ColliderTag::OBSTACLE, float speed = 0, glm::vec2 direction = glm::vec2(0),
 			GameObject* player = nullptr);
 
+		void Start() override;
 		void Update() override;
 
 		void OnCollisionEnter(GameObject* other) override;

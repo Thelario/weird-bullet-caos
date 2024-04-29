@@ -4,6 +4,8 @@
 
 namespace Satellite
 {
+	const std::string path = "./Assets/Fonts/";
+
 	FontsManager* FontsManager::Instance()
 	{
 		static FontsManager* instance = new FontsManager();
@@ -33,7 +35,7 @@ namespace Satellite
 
 	bool FontsManager::AddFont(const std::string& asset_id, const std::string& file_path, int font_size)
 	{
-		TTF_Font* font = TTF_OpenFont(file_path.c_str(), font_size);
+		TTF_Font* font = TTF_OpenFont((path + file_path).c_str(), font_size);
 
 		if (font == NULL) {
 			LoggerManager::Error("A problem occure when opening font with " + asset_id, TTF_GetError());

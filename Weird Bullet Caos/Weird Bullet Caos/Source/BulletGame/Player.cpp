@@ -117,7 +117,8 @@ namespace BulletGame
 				fire_rate_counter = SDL_GetTicks();
 
 				Bullet* bullet = new Bullet(position, glm::vec2(0.8, 1.6), rotation, "basic-shapes", 32, 32, false, 1, true,
-					0, { 223, 208, 184, 255 }, true, true, true, glm::vec2(40, 40), glm::vec2(0), ColliderTag::BULLET, player_stats.bullet_speed, direction);
+					0, { 223, 208, 184, 255 }, true, true, true, glm::vec2(40, 40), glm::vec2(0), ColliderTag::BULLET,
+					player_stats.bullet_speed, direction, bullet_game);
 
 				Engine::Instance()->CreateObject(bullet);
 

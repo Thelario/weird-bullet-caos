@@ -10,6 +10,9 @@ namespace Satellite
 {
 	class Text
 	{
+		public:
+			bool enabled;
+
 		private:
 			glm::vec2 position;
 			glm::vec2 scale;
@@ -19,13 +22,13 @@ namespace Satellite
 			TTF_Font* font;
 
 		public:
-			Text(glm::vec2 position, glm::vec2 scale, const std::string& text, const std::string& asset_id,
+			Text(glm::vec2 position, glm::vec2 scale, const std::string& text, const std::string& asset_id, bool enabled,
 				SDL_Color color = { 255, 255, 255, 255 });
 
 			void SetText(std::string new_text);
 			void SetPosition(glm::vec2 new_position);
 			void SetScale(glm::vec2 new_scale);
 
-			void Render(SDL_Renderer* renderer);
+			void Render();
 	};
 }

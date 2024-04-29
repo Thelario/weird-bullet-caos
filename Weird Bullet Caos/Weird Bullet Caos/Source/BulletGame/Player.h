@@ -19,7 +19,6 @@ namespace BulletGame
 		int current_health = 3;
 	};
 
-	class BulletGame;
 	class Player : public GameObject
 	{
 	private:

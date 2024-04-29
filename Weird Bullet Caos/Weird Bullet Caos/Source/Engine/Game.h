@@ -15,9 +15,9 @@ namespace Satellite
 
 	public:
 		virtual void Start();
-		virtual void Update();
 		void HandleCollisions();
-		void Render();
+		virtual void Update();
+		virtual void Render();
 		void Destroy();
 
 		GameObject* CreateObject(GameObject* gameobject);
