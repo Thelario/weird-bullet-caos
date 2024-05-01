@@ -9,7 +9,7 @@
 
 namespace Satellite
 {
-	enum ColliderTag { NONE, PLAYER, BULLET, OBSTACLE, ENEMY };
+	enum ColliderTag { NONE, PLAYER, BULLET, OBSTACLE, ENEMY, HEALTH_POWERUP };
 
 	class GameObject
 	{

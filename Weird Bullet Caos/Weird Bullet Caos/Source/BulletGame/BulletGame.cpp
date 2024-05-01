@@ -26,6 +26,7 @@ namespace BulletGame
 		SoundsManager::Instance()->AddSound("sfx_shoot.wav", "shoot");
 		SoundsManager::Instance()->AddSound("sfx_asteroid_hit.wav", "asteroid-hit");
 		SoundsManager::Instance()->AddSound("sfx_player_hit.wav", "player-hit");
+		SoundsManager::Instance()->AddSound("sfx_heal.wav", "player-heal");
 
 		game_has_started = false;
 		current_score = 0;
@@ -35,6 +36,9 @@ namespace BulletGame
 
 		score_text = new Text(glm::vec2(Engine::Instance()->GetWindowWidth() / 2, Engine::Instance()->GetWindowHeight() / 2),
 			glm::vec2(5), std::to_string(current_score), "arial", false, { 30, 61, 81, 255 });
+
+		player = nullptr;
+		spawner = nullptr;
 	}
 
 	void BulletGame::Update()
@@ -59,14 +63,16 @@ namespace BulletGame
 			start_game_text->enabled = false;
 			score_text->enabled = true;
 
-			Player* player = new Player(glm::vec2(Engine::Instance()->GetWindowWidth() / 2,
+			player = new Player(glm::vec2(Engine::Instance()->GetWindowWidth() / 2,
 				Engine::Instance()->GetWindowHeight() / 2), glm::vec2(1), 0, "ship", 128, 128, false, -1, true, 0,
 				{ 223, 208, 184, 255 }, true, true, true, glm::vec2(70, 70), glm::vec2(0), ColliderTag::PLAYER, this);
 
 			CreateObject(player);
 
-			CreateObject(new Spawner(glm::vec2(Engine::Instance()->GetWindowWidth() / 2, Engine::Instance()->GetWindowHeight() / 2),
-				glm::vec2(1), 0, "", 0, 0, false, -1, true, 0, { 255, 255, 255, 255 }, true, false, player));
+			spawner = new Spawner(glm::vec2(Engine::Instance()->GetWindowWidth() / 2, Engine::Instance()->GetWindowHeight() / 2),
+				glm::vec2(1), 0, "", 0, 0, false, -1, true, 0, { 255, 255, 255, 255 }, true, false, player);
+
+			CreateObject(spawner);
 
 			player->CreateHearts();
 		}
@@ -99,10 +105,23 @@ namespace BulletGame
 		score_text->enabled = false;
 		current_score = 0;
 		DestroyObjects();
+		player = nullptr;
+		spawner = nullptr;
 	}
 
 	void BulletGame::ScoreUp()
 	{
 		current_score++;
+
+		if (current_score % 10 == 0) {
+			spawner->IncreaseDifficulty();
+			player->Improve();
+		}
+		
+		if (current_score % 20 == 0) {
+			spawner->SpawnHealthPowerup();
+		}
 	}
+
+	int BulletGame::GetScore() { return current_score; }
 }

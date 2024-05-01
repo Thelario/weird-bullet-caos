@@ -44,6 +44,7 @@ namespace BulletGame
 
 		void TakeDamage();
 		void Heal();
+		void Improve();
 
 		void DestroyHearts();
 		void CreateHearts();

@@ -11,6 +11,8 @@
 
 namespace BulletGame
 {
+	const float multiplier = 0.1;
+
 	Player::Player(glm::vec2 position, glm::vec2 scale, double rotation, const std::string& texture_id, int width, int height,
 		bool flip_x, int tile_id, bool center_aligned, int z_index, SDL_Color color, bool enabled, bool renderable, bool collidable,
 		glm::vec2 size, glm::vec2 offset, ColliderTag tag, BulletGame* bullet_game) : GameObject(position, scale, rotation, texture_id,
@@ -145,6 +147,12 @@ namespace BulletGame
 		CreateHearts();
 	}
 
+	void Player::Improve()
+	{
+		player_stats.fire_rate -= player_stats.fire_rate * multiplier;
+		player_stats.rotation_speed += player_stats.rotation_speed * multiplier;
+	}
+
 	void Player::OnCollisionEnter(GameObject* other)
 	{
 		if (other->CompareTag(ColliderTag::OBSTACLE))
@@ -152,6 +160,12 @@ namespace BulletGame
 			SoundsManager::Instance()->PlaySound("player-hit");
 			Engine::Instance()->DestroyObject(other);
 			TakeDamage();
+		}
+		else if (other->CompareTag(ColliderTag::HEALTH_POWERUP))
+		{
+			SoundsManager::Instance()->PlaySound("player-heal");
+			Engine::Instance()->DestroyObject(other);
+			Heal();
 		}
 	}
 }

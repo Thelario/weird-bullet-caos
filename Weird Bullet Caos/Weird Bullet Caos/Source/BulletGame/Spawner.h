@@ -31,5 +31,8 @@ namespace BulletGame
 
 		void Start() override;
 		void Update() override;
+
+		void IncreaseDifficulty();
+		void SpawnHealthPowerup();
 	};
 }
